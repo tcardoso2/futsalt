@@ -10,7 +10,8 @@ function onDraw(items, canvas, ctx) {
     content += `<br />Vector: ${JSON.stringify(ctx.players["Tsubasa"].vector)}`
     content += `<br />FPS: ${canvas.getFPS()}`
 
-    $('.mouse').html(content)
+    $('.rightbox').html(content)
+    $('.rightbox').html(content)
     for(let i in items){
         canvas.drawImage(canvas.scene[items[i].obj], items[i].pos.x(), items[i].pos.y(), ALIGN.CENTER.MIDDLE, items[i].pos.rotation());
     }

@@ -12,17 +12,22 @@ class Player extends BasePlayer {
         this.name = name
         this.shirtNumber = shirtNumber
         this.vector = {}
+        let hasObjective = false
+        this.setObjective = (obj) => {
+            hasObjective = true
+            this.vector['x'] = obj.fieldPosX() - this.fieldPosX()
+            this.vector['y'] = obj.fieldPosY() - this.fieldPosY()
+            if(this.vector['x'] == 0 || this.vector['y'] == 0) {
+                //Objective Accomplished
+                hasObjective = false
+            }
+        }
     }
 
     moveTowards(obj) {
         this.setObjective(obj)
         let [x, y] = this.calculateNextMove()
         this.move(x, -y)
-    }
-
-    setObjective(obj) {
-        this.vector['x'] = obj.fieldPosX() - this.fieldPosX()
-        this.vector['y'] = obj.fieldPosY() - this.fieldPosY()
     }
 
     calculateNextMove() {

@@ -9,14 +9,14 @@
 
 var canvas = new Canvas('main', 0, function() {
     // Clear the canvas
-    this.clear();
-    drawGrid(this);
+    this.clear()
+    drawGrid(this)
 });
 
-var context = {
-    players: {},
-    ball: null
-};
+var context = new Context()
+let match = new Match()
+context.subscribe(match.addNewPlayer, match)
+
 initializePFactory(context)
 
 var items = [];
@@ -29,7 +29,7 @@ var animationLayer = canvas.createLayer('animation', 60, function(frameDuration,
         // on the canvas with drawImage() method
         onFirstFrame(items, this, context);
     }
-    onDraw(items, this, context);
+    onDraw(items, this, context)
 });
 
 

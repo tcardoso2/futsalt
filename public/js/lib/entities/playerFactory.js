@@ -10,7 +10,7 @@ class PlayerFactory {
     }
 
     create(name, shirtNr = 1) {
-        this.ctx.players[name] = new Player(name, shirtNr)
+        this.ctx.addPlayer(new Player(name, shirtNr))
         return this.ctx.players[name]
     }
 }
