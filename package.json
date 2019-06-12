@@ -7,5 +7,6 @@
     "test": "mocha"
   },
   "author": "Tiago Cardoso <tcardoso@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "readme": "README.MD"
 }
