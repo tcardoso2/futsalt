@@ -1,0 +1,11 @@
+{
+  "name": "futsalt",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Tiago Cardoso <tcardoso@gmail.com>",
+  "license": "MIT"
+}
