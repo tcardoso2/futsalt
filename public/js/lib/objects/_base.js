@@ -1,4 +1,4 @@
-class baseObject {
+class BaseObject {
     
     constructor(canvas, name, img) {
         this.name = name;
@@ -37,6 +37,7 @@ class baseObject {
         //Must return the object name so that we know what to draw
         return {
             obj: this.name,
+            //TODO: Consider having a separate object define this
             pos: {
                 x: this.x,
                 y: this.y,
