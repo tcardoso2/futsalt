@@ -4,6 +4,8 @@ class BaseObject {
         this.name = name;
         this.canvas = canvas;
         this.img = img;
+        this.returnObject = {};
+        this.extensions = {};
     }
 
     renderObject(canvas = this.canvas) {
@@ -35,7 +37,18 @@ class BaseObject {
             });
         }, 0);
         //Must return the object name so that we know what to draw
-        return {
+        if(!this.renderObjectExists()) {
+            this.initRenderObject()
+        }
+        return this.returnObject
+    }
+    
+    renderObjectExists() {
+        return (typeof this.returnObject.obj === 'string' || this.returnObject.obj instanceof String)
+    }
+
+    initRenderObject() {
+        this.returnObject = {
             obj: this.name,
             //TODO: Consider having a separate object define this
             pos: {
@@ -44,8 +57,16 @@ class BaseObject {
                 rotation: this.rotation
             }
         }
+        for (let key in this.extensions) {
+            this.returnObject[key] = this.extensions[key]
+        }
     }
-    
+
+    //Extends the object returned by "renderObject", overrides if existing
+    extend(key, value) {
+        this.extensions[key] = value
+    }
+
     x() {
         throw new Error('Not implemented');
     }
