@@ -14,8 +14,8 @@ class BasePlayer {
         let _fieldRotation = 0;
         this.boundaries;
         //public accessors
-        this.fieldPosX = () => _fieldPosX
-        this.fieldPosY = () => _fieldPosY
+        this.fieldPosX = () => _fieldPosX - this.boundaries.pos.x()
+        this.fieldPosY = () => _fieldPosY - this.boundaries.pos.y()
         this.fieldRotation = () => _fieldRotation
 
         //Public methods which require to use private vars
@@ -28,11 +28,13 @@ class BasePlayer {
             _fieldPosY >= this.boundaries.yMin() + this.boundaries.pos.y() 
         }
 
-        this.place = (x, y, enforceBoundaries = true) => {
+        //Places an element in the absolute coordinates of a screen
+        this.place = (x, y, enforceBoundaries = true, relative = false) => {
+            if (!this.boundaries) throw new Error(`Error: You cannot place a "${this.constructor.name}" object without defining boundaries via the "boundToBox" method first`)
             let _oldPosX = _fieldPosX
             let _oldPosY = _fieldPosY
-            _fieldPosX = x
-            _fieldPosY = y
+            _fieldPosX = relative ? x + this.boundaries.pos.x() : x
+            _fieldPosY = relative ? y + this.boundaries.pos.y() : y
             //Restores prev position if outside boundaries
             if(enforceBoundaries) {
                 if (!this.isInsideBoundX()) _fieldPosX = _oldPosX

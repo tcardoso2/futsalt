@@ -10,6 +10,8 @@ function onFirstFrame(items, canvas, ctx) {
     let field = renderField(canvas, null, field1)
     let ball = renderBall(canvas, field, ball1)
     let player = renderFieldPlayer(canvas, field, player1)
+    ball1.place(canvas.mouse.x, canvas.mouse.y, true)
+    player1.place(0, 0, true, true)
 
     //Push to the canvas scene, order matters!
     items.push(field)
