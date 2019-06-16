@@ -1,6 +1,6 @@
 {
   "name": "futsalt",
-  "version": "0.1.0",
+  "version": "0.4.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -8,5 +8,5 @@
   },
   "author": "Tiago Cardoso <tcardoso@gmail.com>",
   "license": "MIT",
-  "readme": "README.MD"
+  "readme": "README.md"
 }

@@ -14,7 +14,8 @@ var canvas = new Canvas('main', 0, function() {
 });
 
 var context = {
-    players: {}
+    players: {},
+    ball: null
 };
 initializePFactory(context)
 

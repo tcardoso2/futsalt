@@ -1,4 +1,6 @@
 function renderField(canvas, relativeTo, entity = new Field()) {
+    
+    validateArgs()
     var field = new BaseObject(canvas, "field", "soccer-field.jpg")
     field.x = () => 650
     field.y = () => 350
@@ -9,7 +11,6 @@ function renderField(canvas, relativeTo, entity = new Field()) {
     field.extend('yMax', () => entity.yMax)
 
     function validateArgs(){
-        if (!relativeTo) throw new Error('Error, you must specify an object to position the player')
     }
 
     return field.renderObject()
