@@ -2,8 +2,13 @@
 function onDraw(items, canvas, ctx) {
     //Animate!
     //TODO: Not the best place to animate the model
+    ctx.match.playerStats["Tsubasa"].stamina = ctx.players["Tsubasa"].attributes.getStamina().toFixed(0)
     ctx.players["Tsubasa"].moveTowards(ctx.ball, (objective) => {
         ctx.match.playerStats["Tsubasa"].stats.ballPossessions++
+    }, (objective) => {
+        ctx.match.playerStats["Tsubasa"].stats.ballLosses++
+    }, (error) => {        
+        alert(error)
     });
     ctx.ball.place(canvas.mouse.x, canvas.mouse.y, true)
     let content = `Mouse: ${canvas.mouse.x}, ${canvas.mouse.y}`
