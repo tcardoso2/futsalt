@@ -12,6 +12,7 @@ class Context {
         this.players = players
         this.ball = ball
         this.handlers = [] //Observers
+        this.match
     }
 
     addPlayer(player) {

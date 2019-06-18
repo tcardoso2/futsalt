@@ -9,23 +9,26 @@
 class Player extends BasePlayer {
     constructor(name, shirtNumber = 1) {
         super(0, 0)
+        let event = new Event('reach-obj');
         this.name = name
         this.shirtNumber = shirtNumber
         this.vector = {}
         let hasObjective = false
-        this.setObjective = (obj) => {
+        let achievedObjective = false
+        this.setObjective = (obj, callback) => {
             hasObjective = true
             this.vector['x'] = obj.fieldPosX() - this.fieldPosX()
             this.vector['y'] = obj.fieldPosY() - this.fieldPosY()
             if(this.vector['x'] == 0 || this.vector['y'] == 0) {
                 //Objective Accomplished
-                hasObjective = false
+                if(!achievedObjective) callback(obj)
+                achievedObjective = true
             }
         }
     }
 
-    moveTowards(obj) {
-        this.setObjective(obj)
+    moveTowards(obj, callback) {
+        this.setObjective(obj, callback)
         let [x, y] = this.calculateNextMove()
         this.move(x, -y)
     }

@@ -16,6 +16,7 @@ var canvas = new Canvas('main', 0, function() {
 var context = new Context()
 let match = new Match()
 context.subscribe(match.addNewPlayer, match)
+context.match = match //Easy accessor 
 
 initializePFactory(context)
 

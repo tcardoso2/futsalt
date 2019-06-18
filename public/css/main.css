@@ -17,6 +17,8 @@ body {
     width: 170px;
     color: white;
     height: 90px;
+    overflow-x: hidden;
+    overflow-wrap: break-word;
 }
 
 .leftbox {
@@ -27,4 +29,6 @@ body {
     width: 170px;
     color: white;
     height: 190px;
+    overflow-x: hidden;
+    overflow-wrap: break-word;
 }

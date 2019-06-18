@@ -1,6 +1,6 @@
 /**
  * Match Entity
- * Represents a game
+ * Represents game statistics for players in a match
  * Author: Tiago Cardoso
  * Created: 16Jun2019
  */
