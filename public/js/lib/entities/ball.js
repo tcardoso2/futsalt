@@ -10,5 +10,19 @@
 class Ball extends BasePlayer {
     constructor(x, y) {
         super(x, y)
+        this.owner = null
+        this.request = (player) => {
+            this.validatePlayer(player)
+            //For now I make this simple, whichever player requests for ball, gets it
+            this.owner = player
+        }
+        this.ownedBy = (player) => {
+            this.validatePlayer(player)
+            return this.owner == player
+        }
+        this.validatePlayer = (player) => {
+            if (!(player instanceof Player)) throw new Error('Not a valid player entity')
+        }
     }
+    
 }

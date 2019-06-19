@@ -9,46 +9,80 @@
 class Player extends BasePlayer {
     constructor(name, shirtNumber = 1) {
         super(0, 0)
-        let event = new Event('reach-obj');
-        //Qualitative attributes
+
+        //Qualitative Public attributes
         this.name = name
         this.shirtNumber = shirtNumber
-        //Movement attributes
-        this.vector = {}
-        //Skill / Physical attributes
-        this.attributes = new PlayerAttributes()
-        let hasObjective = false
-        let achievedObjective = false
-        this.setObjective = (obj, yes, no) => {
-            hasObjective = true
-            this.vector['x'] = obj.fieldPosX() - this.fieldPosX()
-            this.vector['y'] = obj.fieldPosY() - this.fieldPosY()
-            if(Math.abs(this.vector['x']) <= 1 && Math.abs(this.vector['y']) <= 1) {
-                //Objective Accomplished
-                if(!achievedObjective && yes) yes(obj)
-                achievedObjective = true
-            }
-            else {
-                if(achievedObjective && no) no(obj)
-                achievedObjective = false
+        //Movement Private attributes
+        let distanceToObj = {}
+        //Skill / Physical Private attributes
+        let attributes = new PlayerAttributes()
+        let staminaToDistanceUnitRatio = 1/10 //Per each 10 pixels moved, stamina decreases 1 unit
+        //Objective Private attributes
+        let target = null
+        let achievement = null
+        //Target Public Methods
+        this.getDistanceToObj = () => distanceToObj
+
+        this.getAttributes = () => attributes
+
+        this.hasAchievedTarget = () => achievement != null
+
+        this.hasTarget = () => target != null
+        
+        this.isCloseToTarget = () => Math.abs(distanceToObj['x']) <= 1 && Math.abs(distanceToObj['y']) <= 1
+        
+        this.setTarget = (obj) => {
+            target = obj
+            distanceToObj['x'] = target.fieldPosX() - this.fieldPosX()
+            distanceToObj['y'] = target.fieldPosY() - this.fieldPosY()
+        }
+                
+        this.setObjective = (obj, yes) => {
+            this.setTarget(obj)
+            if(this.isCloseToTarget()) {
+                this.requestAchieveObjective(obj, yes)
             }
         }
+        
+        this.requestAchieveObjective = (obj, confirmation) => {
+            //Will attempt to request the objective
+            if(!obj.ownedBy(this)) {
+                if (confirmation && obj.request(this)) {
+                    confirmation(obj)
+                    achievement = obj
+                }
+                achievement = null
+            } else {
+                //Already owns does not need target anymore
+                target = false
+            }
+        }
+        
+        this.calculateNextMove = () => {
+            if (!distanceToObj) return [0, 0]
+            let x = distanceToObj['x'] == 0 ? 0 : distanceToObj['x']/Math.abs(distanceToObj['x'])
+            let y = distanceToObj['y'] == 0 ? 0 : -distanceToObj['y']/Math.abs(distanceToObj['y'])
+            return [x, y]
+        }
+
+        this.decreaseStamina =(x, y, callbackError) => {
+            //moving takes in energy
+            let energyRequired = Math.abs(Math.max(x,y)*staminaToDistanceUnitRatio)
+            return this.getAttributes().decreaseStamina(energyRequired, callbackError)
+        }    
     }
 
-    moveTowards(obj, callbackObjAchieved, callbackObjectiveNotAchieved, error) {
-        this.setObjective(obj, callbackObjAchieved, callbackObjectiveNotAchieved)
+    looseAchievement(obj) {
+        achievement = null
+    }
+
+    moveTowards(obj, callbackObjAchieved, callbackError) {
+        this.setObjective(obj, callbackObjAchieved)
         let [x, y] = this.calculateNextMove()
-        //moving takes in energy
-        let energy = Math.abs(Math.max(x,y)/10)
-        if(this.attributes.decreaseStamina(Math.max(x,y)/10, error)) {
+        if(this.decreaseStamina(x, y, callbackError)) {
             this.move(x, -y)
         }
-    }
-
-    calculateNextMove() {
-        let x = this.vector['x'] == 0 ? 0 : this.vector['x']/Math.abs(this.vector['x'])
-        let y = this.vector['y'] == 0 ? 0 : -this.vector['y']/Math.abs(this.vector['y'])
-        return [x, y]
     }
 }
 
