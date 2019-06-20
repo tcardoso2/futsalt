@@ -1,5 +1,6 @@
 Versions
 --------
+- v.0.9.0: Refactoring / fixed Ball possession / Ball loss logic, and allowing subscription from notifications from players. Introduction of game comments (WIP)
 - v.0.8.0: Refactoring player entity for readibility and code structure, improvement on objectives logic 
 - v.0.7.0: Added ball losses to statistics and player stamina, event trigger when player is tired, not alowing to proceed.
 - v.0.6.0: Started working on match statistics.

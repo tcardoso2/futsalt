@@ -26,11 +26,11 @@ class Player extends BasePlayer {
 
         this.getAttributes = () => attributes
 
-        this.hasAchievedTarget = () => achievement != null
+        this.hasAchievedTarget = () => this.hasTarget() && (achievement == target)
 
         this.hasTarget = () => target != null
         
-        this.isCloseToTarget = () => Math.abs(distanceToObj['x']) <= 1 && Math.abs(distanceToObj['y']) <= 1
+        this.isCloseToTarget = () => Math.abs(distanceToObj['x']) <= 2 && Math.abs(distanceToObj['y']) <= 2
         
         this.setTarget = (obj) => {
             target = obj
@@ -38,24 +38,45 @@ class Player extends BasePlayer {
             distanceToObj['y'] = target.fieldPosY() - this.fieldPosY()
         }
                 
-        this.setObjective = (obj, yes) => {
+        this.setObjective = (obj, yes, challenge) => {
             this.setTarget(obj)
+            if(!this.hasAchievedTarget()) {
+                this.chaseTarget(yes, challenge)
+            } else {
+                this.keepAchievement(obj)
+            }
+        }
+
+        this.chaseTarget = (yes, challenge) => {
             if(this.isCloseToTarget()) {
-                this.requestAchieveObjective(obj, yes)
+                this.trigger([`${this.name} is close to the ${target.name}!!`])
+                this.requestAchieveObjective(target, yes, challenge)
+            }
+        }
+
+        this.keepAchievement = () => {
+            //Player simply looses it if it is not close to it
+            if(!this.isCloseToTarget()) {
+                this.trigger([`${this.name} lost the ${achievement.name}!!`, this, "ballLosses"])
+                achievement.loose(this)
+                achievement = null
             }
         }
         
-        this.requestAchieveObjective = (obj, confirmation) => {
+        this.requestAchieveObjective = (obj, confirmation, challenge) => {
             //Will attempt to request the objective
             if(!obj.ownedBy(this)) {
                 if (confirmation && obj.request(this)) {
+                    this.trigger([`${this.name} got the ${obj.name}!!`, this, "ballPossessions"])
                     confirmation(obj)
                     achievement = obj
+                    return
                 }
+                if (challenge) challenge()
                 achievement = null
             } else {
                 //Already owns does not need target anymore
-                target = false
+                target = null
             }
         }
         
@@ -73,12 +94,8 @@ class Player extends BasePlayer {
         }    
     }
 
-    looseAchievement(obj) {
-        achievement = null
-    }
-
-    moveTowards(obj, callbackObjAchieved, callbackError) {
-        this.setObjective(obj, callbackObjAchieved)
+    moveTowards(obj, callbackObjAchieved, challenge, callbackError) {
+        this.setObjective(obj, callbackObjAchieved, challenge)
         let [x, y] = this.calculateNextMove()
         if(this.decreaseStamina(x, y, callbackError)) {
             this.move(x, -y)

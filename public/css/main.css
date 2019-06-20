@@ -28,7 +28,18 @@ body {
     border: 1px white solid;
     width: 170px;
     color: white;
-    height: 190px;
+    height: 220px;
     overflow-x: hidden;
     overflow-wrap: break-word;
+}
+
+.footer-comments {
+    position: absolute;
+    bottom: 0px;
+    border: none;
+    text-align: center;
+    width: 100%;
+    color: white;
+    height: 30px;
+    overflow-x: hidden;
 }

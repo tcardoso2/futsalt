@@ -10,11 +10,17 @@
 class Ball extends BasePlayer {
     constructor(x, y) {
         super(x, y)
+        this.name = "ball"
         this.owner = null
         this.request = (player) => {
             this.validatePlayer(player)
             //For now I make this simple, whichever player requests for ball, gets it
             this.owner = player
+            return true
+        }
+        this.loose = (player) => {
+            this.validatePlayer(player)
+            this.owner = null
         }
         this.ownedBy = (player) => {
             this.validatePlayer(player)

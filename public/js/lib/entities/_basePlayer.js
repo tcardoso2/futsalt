@@ -6,13 +6,15 @@
  * Created: 16Jun2019
  */
 
-class BasePlayer {
+class BasePlayer extends Subscriber {
     constructor(x = 0, y = 0) {
+        super()
         //internal attributes
         if(isNaN(x) || isNaN(y)) throw new Error('BasePlayer coordinates needs to be numbers')
         let _fieldPosX = x; //Center of the pitch
         let _fieldPosY = y; 
         let _fieldRotation = 0;
+        this.name = "Unamed"
         this.boundaries;
         //public accessors
         this.setFieldPosX = (x) => {

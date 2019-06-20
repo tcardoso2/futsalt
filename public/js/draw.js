@@ -4,10 +4,10 @@ function onDraw(items, canvas, ctx) {
     //TODO: Not the best place to animate the model
     ctx.match.playerStats["Tsubasa"].stamina = ctx.players["Tsubasa"].getAttributes().getStamina().toFixed(0)
     ctx.players["Tsubasa"].moveTowards(ctx.ball, (objective) => {
-        ctx.match.playerStats["Tsubasa"].stats.ballPossessions++
-    }/*, (objective) => {
-        ctx.match.playerStats["Tsubasa"].stats.ballLosses++
-    }*/, (error) => {        
+        //Successfully got the ball
+    }, (objective) => {
+        ctx.match.playerStats["Tsubasa"].stats.ballChallenges++
+    }, (error) => {        
         alert(error)
     });
     ctx.ball.place(canvas.mouse.x, canvas.mouse.y, true)
