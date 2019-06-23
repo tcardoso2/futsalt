@@ -37,13 +37,12 @@ class Context extends Subscriber{
     }
 
     //Scene
-    drawScene() {
-        this.scene.draw()
+    drawScene(canvas, actors, overlays) {
+        this.scene.draw(canvas, actors, overlays)
     }
 
     //Players
     movePlayers() {
-        console.log(this.players)
         for(let p in this.players) {
             this.players[p].moveTowards(this.ball, (objective) => {
                 //Successfully got the ball
