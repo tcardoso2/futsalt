@@ -7,7 +7,7 @@
  */
 
 class Player extends BasePlayer {
-    constructor(name, shirtNumber = 1) {
+    constructor(name, shirtNumber = 1, attr) {
         super(0, 0)
 
         //Qualitative Public attributes
@@ -16,7 +16,7 @@ class Player extends BasePlayer {
         //Movement Private attributes
         let distanceToObj = {}
         //Skill / Physical Private attributes
-        let attributes = new PlayerAttributes()
+        let attributes = new PlayerAttributes(attr ? attr : undefined)
         let staminaToDistanceUnitRatio = 1/10 //Per each 10 pixels moved, stamina decreases 1 unit
         //Objective Private attributes
         let target = null
@@ -66,13 +66,12 @@ class Player extends BasePlayer {
         this.requestAchieveObjective = (obj, confirmation, challenge) => {
             //Will attempt to request the objective
             if(!obj.ownedBy(this)) {
-                if (confirmation && obj.request(this)) {
+                if (confirmation && obj.request(this, challenge)) {
                     this.trigger([`${this.name} got the ${obj.name}!!`, this, "ballPossessions"])
                     confirmation(obj)
                     achievement = obj
                     return
                 }
-                if (challenge) challenge()
                 achievement = null
             } else {
                 //Already owns does not need target anymore
@@ -82,8 +81,8 @@ class Player extends BasePlayer {
         
         this.calculateNextMove = () => {
             if (!distanceToObj) return [0, 0]
-            let x = distanceToObj['x'] == 0 ? 0 : distanceToObj['x']/Math.abs(distanceToObj['x'])
-            let y = distanceToObj['y'] == 0 ? 0 : -distanceToObj['y']/Math.abs(distanceToObj['y'])
+            let x = distanceToObj['x'] == 0 ? 0 : distanceToObj['x']*attributes.getSpeed()/Math.abs(distanceToObj['x']*100)
+            let y = distanceToObj['y'] == 0 ? 0 : -distanceToObj['y']*attributes.getSpeed()/Math.abs(distanceToObj['y']*100)
             return [x, y]
         }
 
@@ -104,9 +103,11 @@ class Player extends BasePlayer {
 }
 
 class PlayerAttributes {
-    constructor() {
+    constructor(attr = {}) {
         let attributes = {
-            stamina: 100
+            //Attribute defaults can be overriden
+            speed: attr.speed ? attr.speed : 50 ,
+            stamina: attr.stamina ? attr.stamina : 100
         }
         this.decreaseStamina = (amount, callbackTired) => {
             if(attributes.stamina - amount < 0) {
@@ -118,5 +119,6 @@ class PlayerAttributes {
             return true
         }
         this.getStamina = () => attributes.stamina
+        this.getSpeed = () => attributes.speed
     }
 }

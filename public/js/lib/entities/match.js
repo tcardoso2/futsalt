@@ -9,6 +9,9 @@ class Match {
     constructor() {
         this.playerStats = {}
         let self = this
+        let paused = false
+        this.pause = () => paused = true
+        this.isPaused = () => paused == true
         this.addNewPlayer = (player) => {
             self.playerStats[player.name] = {
                 player: player,
@@ -27,8 +30,7 @@ class Match {
         }
         this.updatePlayerStat = ([_, player, stat]) => {
             if(player && player.name && stat) {
-                console.log("Updating Player stats!", player.name, stat)
-                self.playerStats[player.name].stats[stat]++
+                 self.playerStats[player.name].stats[stat]++
             }
         }
     }

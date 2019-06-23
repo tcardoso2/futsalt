@@ -12,9 +12,11 @@ class Context extends Subscriber{
         super()
         this.players = players
         this.ball = ball
-        this.match
+        this.match = {}
+        this.scene = new SceneManager()
     }
 
+    //Player
     addPlayer(player) {
         this.players[player.name] = player
         //For now we subscribe this function to the player in the field
@@ -23,5 +25,41 @@ class Context extends Subscriber{
         })
         //Notifies player was added
         super.trigger(player)
+    }
+
+    //Match
+    pauseMatch() {
+        this.match.pause()
+    }
+
+    matchIsPaused() {
+        return this.match.isPaused()
+    }
+
+    //Scene
+    drawScene() {
+        this.scene.draw()
+    }
+
+    //Players
+    movePlayers() {
+        console.log(this.players)
+        for(let p in this.players) {
+            this.players[p].moveTowards(this.ball, (objective) => {
+                //Successfully got the ball
+            }, (objective) => {
+                //Another player has / wants the ball, challenge mode!
+                this.match.playerStats[this.players[p].name].stats.ballChallenges++
+                this.pauseMatch()
+                this.scene.changeTo("VS")
+                //TODO: This should be done automatically by the scene!!
+                canvas.loadImage("img/vs.png", (image) => overlays.push(image))
+                canvas.loadImage("img/tsubasa.png", (image) => overlays.push(image))
+                canvas.loadImage("img/hyuga.png", (image) => overlays.push(image))
+                //ctx.match.pause() //TODO
+            }, (error) => {        
+                alert(error)
+            })
+        }
     }
  }

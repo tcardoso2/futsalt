@@ -1,5 +1,25 @@
 Versions
---------
+========
+```
+███████╗██╗   ██╗████████╗███████╗ █████╗ ██╗  ████████╗
+██╔════╝██║   ██║╚══██╔══╝██╔════╝██╔══██╗██║  ╚══██╔══╝
+█████╗  ██║   ██║   ██║   ███████╗███████║██║     ██║   
+██╔══╝  ██║   ██║   ██║   ╚════██║██╔══██║██║     ██║   
+██║     ╚██████╔╝   ██║   ███████║██║  ██║███████╗██║   
+╚═╝      ╚═════╝    ╚═╝   ╚══════╝╚═╝  ╚═╝╚══════╝╚═╝    Version 0.10.1
+                                                        
+ _____ _____ _      _____ ____  _  ____ 
+/  __//  __// \  /|/  __// ___\/ \/ ___\
+| |  _|  \  | |\ |||  \  |    \| ||    \
+| |_//|  /_ | | \|||  /_ \___ || |\___ |
+\____\\____\\_/  \|\____\\____/\_/\____/
+                                        
+(Fonts by http://patorjk.com)
+```                                                                                        
+Genesis
+-------
+- v.0.10.1: Refactoring code, added scenes into context, started adding first tests (Scenes)
+- v.0.10.0: Adding another player, first steps on 2 opponent players on field; introduced speed as player attribute, and game scenes, match pause. Started introducing Mocha tests (WIP)
 - v.0.9.0: Refactoring / fixed Ball possession / Ball loss logic, and allowing subscription from notifications from players. Introduction of game comments (WIP)
 - v.0.8.0: Refactoring player entity for readibility and code structure, improvement on objectives logic 
 - v.0.7.0: Added ball losses to statistics and player stamina, event trigger when player is tired, not alowing to proceed.

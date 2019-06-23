@@ -9,9 +9,12 @@ class PlayerFactory {
         this.ctx = context
     }
 
-    create(name, shirtNr = 1) {
-        this.ctx.addPlayer(new Player(name, shirtNr))
-        return this.ctx.players[name]
+    create(name, shirtNr = 1, attr) {
+        let player = new Player(name, shirtNr, attr)
+        if(this.ctx) {
+            this.ctx.addPlayer(player)
+        }
+        return player
     }
 }
 let playerFactory

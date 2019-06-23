@@ -27,6 +27,7 @@ class BasePlayer extends Subscriber {
         }
         this.fieldPosX = () => _fieldPosX - this.boundaries.pos.x()
         this.fieldPosY = () => _fieldPosY - this.boundaries.pos.y()
+        this.fieldPos = () => [this.fieldPosX(), this.fieldPosY()]
         this.fieldRotation = () => _fieldRotation
 
         //Public methods which require to use private vars

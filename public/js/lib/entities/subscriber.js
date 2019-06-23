@@ -1,5 +1,5 @@
 /**
- * Subscriger Entity
+ * Subscriber Entity
  * Implements the Observer pattern by allowing
  * subscribers to be notified of changes
  * Author: Tiago Cardoso
@@ -27,4 +27,4 @@ class Subscriber {
         var scope = thisObj || window
         this.handlers.forEach(item => item[0].call(scope, o, item[1]))
     }
- }
+}
