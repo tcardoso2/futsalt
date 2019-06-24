@@ -37,8 +37,8 @@ class Context extends Subscriber{
     }
 
     //Scene
-    drawScene(canvas, actors, overlays) {
-        this.scene.draw(canvas, actors, overlays)
+    drawScene(canvas) {
+        this.scene.draw(canvas)
     }
 
     //Players
@@ -51,11 +51,14 @@ class Context extends Subscriber{
                 this.match.playerStats[this.players[p].name].stats.ballChallenges++
                 this.pauseMatch()
                 this.scene.changeTo("VS")
-                //TODO: This should be done automatically by the scene!!
-                canvas.loadImage("img/vs.png", (image) => overlays.push(image))
-                canvas.loadImage("img/tsubasa.png", (image) => overlays.push(image))
-                canvas.loadImage("img/hyuga.png", (image) => overlays.push(image))
-                //ctx.match.pause() //TODO
+                //Temporary, TODO add real VS logic and when done change back
+                //this.ctx.challenge((done) => {
+                    //changeBack
+                //})
+                let self = this.scene
+                setTimeout(() => {
+                    self.changeTo("main")
+                }, 5000)
             }, (error) => {        
                 alert(error)
             })

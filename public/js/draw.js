@@ -1,5 +1,4 @@
 //Called in every frame
-let overlays = []
 function onDraw(canvas, ctx) {
     //Animate!
     //TODO: Not the best place to animate the model
@@ -18,5 +17,5 @@ function onDraw(canvas, ctx) {
     $('.rightbox').html(content)
     $('.leftbox').html(JSON.stringify(ctx.match.playerStats))
     //This creates the actual scene
-    ctx.drawScene(canvas, ctx.scene.getActors(), overlays)
+    ctx.drawScene(canvas)
 }

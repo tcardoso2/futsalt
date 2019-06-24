@@ -6,7 +6,7 @@ Versions
 █████╗  ██║   ██║   ██║   ███████╗███████║██║     ██║   
 ██╔══╝  ██║   ██║   ██║   ╚════██║██╔══██║██║     ██║   
 ██║     ╚██████╔╝   ██║   ███████║██║  ██║███████╗██║   
-╚═╝      ╚═════╝    ╚═╝   ╚══════╝╚═╝  ╚═╝╚══════╝╚═╝    Version 0.10.1
+╚═╝      ╚═════╝    ╚═╝   ╚══════╝╚═╝  ╚═╝╚══════╝╚═╝    Version 0.10.2
                                                         
  _____ _____ _      _____ ____  _  ____ 
 /  __//  __// \  /|/  __// ___\/ \/ ___\
@@ -18,6 +18,7 @@ Versions
 ```                                                                                        
 Genesis
 -------
+- v.0.10.2: Bug fixes, refactoring code, created VS screen
 - v.0.10.1: Refactoring code, added scenes into context, started adding first tests (Scenes)
 - v.0.10.0: Adding another player, first steps on 2 opponent players on field; introduced speed as player attribute, and game scenes, match pause. Started introducing Mocha tests (WIP)
 - v.0.9.0: Refactoring / fixed Ball possession / Ball loss logic, and allowing subscription from notifications from players. Introduction of game comments (WIP)
