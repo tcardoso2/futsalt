@@ -15,7 +15,7 @@ class Ball extends BasePlayer {
         this.request = (player, challenge) => {
             this.validatePlayer(player)
             if(this.ownedByOther(player)){
-                challenge()
+                challenge(this, player)
             } else {
                 //Ball is free
                 this.owner = player

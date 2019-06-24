@@ -93,6 +93,11 @@ class Player extends BasePlayer {
         }    
     }
 
+    matchUp(challenger, callback) {
+        //TODO change
+        setTimeout(callback, 5000)
+    }
+
     moveTowards(obj, callbackObjAchieved, challenge, callbackError) {
         this.setObjective(obj, callbackObjAchieved, challenge)
         let [x, y] = this.calculateNextMove()

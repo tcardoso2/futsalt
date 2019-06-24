@@ -46,19 +46,16 @@ class Context extends Subscriber{
         for(let p in this.players) {
             this.players[p].moveTowards(this.ball, (objective) => {
                 //Successfully got the ball
-            }, (objective) => {
+            }, (ball, challenger) => {
                 //Another player has / wants the ball, challenge mode!
-                this.match.playerStats[this.players[p].name].stats.ballChallenges++
+                this.match.playerStats[ball.owner.name].stats.ballChallenges++
+                this.match.playerStats[challenger.name].stats.ballChallenges++
                 this.pauseMatch()
                 this.scene.changeTo("VS")
-                //Temporary, TODO add real VS logic and when done change back
-                //this.ctx.challenge((done) => {
-                    //changeBack
-                //})
                 let self = this.scene
-                setTimeout(() => {
+                challenger.matchUp(ball.owner, (done) => {
                     self.changeTo("main")
-                }, 5000)
+                })
             }, (error) => {        
                 alert(error)
             })
