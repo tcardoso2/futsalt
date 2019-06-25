@@ -21,7 +21,8 @@ class Context extends Subscriber{
         this.players[player.name] = player
         //For now we subscribe this function to the player in the field
         player.subscribe((content) => {
-            $('.footer-comments').html(JSON.stringify(content[0]))
+            content = /*$('.footer-comments').html() + " " +*/ JSON.stringify(content[0])
+            $('.footer-comments').html(content)
         })
         //Notifies player was added
         super.trigger(player)
@@ -48,13 +49,12 @@ class Context extends Subscriber{
                 //Successfully got the ball
             }, (ball, challenger) => {
                 //Another player has / wants the ball, challenge mode!
-                this.match.playerStats[ball.owner.name].stats.ballChallenges++
-                this.match.playerStats[challenger.name].stats.ballChallenges++
+                this.match.playerStats[ball.getOwner().name].stats.ballChallenges++
                 this.pauseMatch()
                 this.scene.changeTo("VS")
                 let self = this.scene
-                challenger.matchUp(ball.owner, (done) => {
-                    self.changeTo("main")
+                challenger.matchUp(ball.getOwner(), (done) => {
+                    setTimeout(() => self.changeTo("main"), 3000)
                 })
             }, (error) => {        
                 alert(error)

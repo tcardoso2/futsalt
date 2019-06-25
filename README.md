@@ -18,6 +18,7 @@ Versions
 ```                                                                                        
 Genesis
 -------
+- v.0.10.3: Working on VS logic, introduced stun after loosing the ball, added more tests (WIP)
 - v.0.10.2: Bug fixes, refactoring code, created VS screen, started with MatchUp (Challenge mode) (WIP)
 - v.0.10.1: Refactoring code, added scenes into context, started adding first tests (Scenes)
 - v.0.10.0: Adding another player, first steps on 2 opponent players on field; introduced speed as player attribute, and game scenes, match pause. Started introducing Mocha tests (WIP)

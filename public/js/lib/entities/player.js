@@ -6,6 +6,8 @@
  * Created: 13Jun2019
  */
 
+const DEFAULT_STUN_PERIOD_MS = 5000
+
 class Player extends BasePlayer {
     constructor(name, shirtNumber = 1, attr) {
         super(0, 0)
@@ -15,6 +17,7 @@ class Player extends BasePlayer {
         this.shirtNumber = shirtNumber
         //Movement Private attributes
         let distanceToObj = {}
+        let stunned = false
         //Skill / Physical Private attributes
         let attributes = new PlayerAttributes(attr ? attr : undefined)
         let staminaToDistanceUnitRatio = 1/10 //Per each 10 pixels moved, stamina decreases 1 unit
@@ -26,12 +29,27 @@ class Player extends BasePlayer {
 
         this.getAttributes = () => attributes
 
+        this.getAchievement = () => achievement
+
         this.hasAchievedTarget = () => this.hasTarget() && (achievement == target)
 
         this.hasTarget = () => target != null
         
         this.isCloseToTarget = () => Math.abs(distanceToObj['x']) <= 2 && Math.abs(distanceToObj['y']) <= 2
         
+        this.isStunned = () => stunned
+        
+        this.recover = () => {
+            stunned = false
+            if(!this.isStunned()) this.trigger([`${this.name} is recovered!!`])
+        }
+
+        this.stunFor = (period = DEFAULT_STUN_PERIOD_MS) => {
+            stunned = true
+            let self = this
+            setTimeout(() => self.recover(), period)
+        }
+
         this.setTarget = (obj) => {
             target = obj
             distanceToObj['x'] = target.fieldPosX() - this.fieldPosX()
@@ -57,10 +75,14 @@ class Player extends BasePlayer {
         this.keepAchievement = () => {
             //Player simply looses it if it is not close to it
             if(!this.isCloseToTarget()) {
-                this.trigger([`${this.name} lost the ${achievement.name}!!`, this, "ballLosses"])
                 achievement.loose(this)
-                achievement = null
             }
+        }
+
+        this.looseAchievement = (source) => {
+            this.stunFor()
+            this.trigger([`${this.name} lost the ${source.name}!!`, this, "ballLosses"])
+            achievement = null
         }
         
         this.requestAchieveObjective = (obj, confirmation, challenge) => {
@@ -93,16 +115,21 @@ class Player extends BasePlayer {
         }    
     }
 
-    matchUp(challenger, callback) {
+    matchUp(challengee, callback) {
         //TODO change
-        setTimeout(callback, 5000)
+        this.trigger([`${this.name} is challenging ${challengee.name}!!`, this, "ballChallenges"])
+        vs(this, challengee, (winner) => {
+            callback(winner)
+        })
     }
 
     moveTowards(obj, callbackObjAchieved, challenge, callbackError) {
-        this.setObjective(obj, callbackObjAchieved, challenge)
-        let [x, y] = this.calculateNextMove()
-        if(this.decreaseStamina(x, y, callbackError)) {
-            this.move(x, -y)
+        if(!this.isStunned()) {
+            this.setObjective(obj, callbackObjAchieved, challenge)
+            let [x, y] = this.calculateNextMove()
+            if(this.decreaseStamina(x, y, callbackError)) {
+                this.move(x, -y)
+            }    
         }
     }
 }

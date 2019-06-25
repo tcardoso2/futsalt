@@ -11,27 +11,31 @@ class Ball extends BasePlayer {
     constructor(x, y) {
         super(x, y)
         this.name = "ball"
-        this.owner = null
+        let owner = null
+
+        this.getOwner = () => owner
         this.request = (player, challenge) => {
             this.validatePlayer(player)
             if(this.ownedByOther(player)){
                 challenge(this, player)
             } else {
                 //Ball is free
-                this.owner = player
+                owner = player
+                return true
             }
-            return true
         }
         this.loose = (player) => {
             this.validatePlayer(player)
-            this.owner = null
+            if (!this.ownedBy(player)) throw new Error(`Player {player.name} cannot loose the ball because does not own it!`)
+            player.looseAchievement(this)
+            owner = null
         }
         this.ownedBy = (player) => {
             this.validatePlayer(player)
-            return this.owner == player
+            return owner == player
         }
         this.ownedByOther = (player) => {
-            return (this.owner instanceof Player) && !this.ownedBy(player)
+            return (owner instanceof Player) && !this.ownedBy(player)
         }
         this.validatePlayer = (player) => {
             if (!(player instanceof Player)) throw new Error('Not a valid player entity')
