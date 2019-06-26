@@ -11,6 +11,7 @@ class Match {
         let self = this
         let paused = false
         this.pause = () => paused = true
+        this.resume = () => paused = false
         this.isPaused = () => paused == true
         this.addNewPlayer = (player) => {
             self.playerStats[player.name] = {

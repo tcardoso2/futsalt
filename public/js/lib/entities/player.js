@@ -16,6 +16,7 @@ class Player extends BasePlayer {
         this.name = name
         this.shirtNumber = shirtNumber
         //Movement Private attributes
+        let fieldSideRight = true //Player by default assigned to attack to the left
         let distanceToObj = {}
         let stunned = false
         //Skill / Physical Private attributes
@@ -35,7 +36,7 @@ class Player extends BasePlayer {
 
         this.hasTarget = () => target != null
         
-        this.isCloseToTarget = () => Math.abs(distanceToObj['x']) <= 2 && Math.abs(distanceToObj['y']) <= 2
+        this.isCloseToTarget = () => Math.abs(distanceToObj['x']) <= 5 && Math.abs(distanceToObj['y']) <= 5
         
         this.isStunned = () => stunned
         
@@ -75,7 +76,10 @@ class Player extends BasePlayer {
         this.keepAchievement = () => {
             //Player simply looses it if it is not close to it
             if(!this.isCloseToTarget()) {
-                achievement.loose(this)
+                //achievement.loose(this)
+                //TODO deal with this logic later when passing or shooting or accidentaly loosing the ball
+            } else {
+
             }
         }
 
@@ -94,7 +98,7 @@ class Player extends BasePlayer {
                     achievement = obj
                     return
                 }
-                achievement = null
+                //achievement = null
             } else {
                 //Already owns does not need target anymore
                 target = null
@@ -102,9 +106,22 @@ class Player extends BasePlayer {
         }
         
         this.calculateNextMove = () => {
-            if (!distanceToObj) return [0, 0]
-            let x = distanceToObj['x'] == 0 ? 0 : distanceToObj['x']*attributes.getSpeed()/Math.abs(distanceToObj['x']*100)
-            let y = distanceToObj['y'] == 0 ? 0 : -distanceToObj['y']*attributes.getSpeed()/Math.abs(distanceToObj['y']*100)
+            let x = 0
+            let y = 0
+            if (!distanceToObj) return [x, y]
+            if(!this.hasAchievedTarget()){
+                x = distanceToObj['x'] == 0 ? 0 : distanceToObj['x']*attributes.getSpeed()/Math.abs(distanceToObj['x']*100)
+                y = distanceToObj['y'] == 0 ? 0 : -distanceToObj['y']*attributes.getSpeed()/Math.abs(distanceToObj['y']*100)    
+            } else {
+                //[x, y] = this.calculateRandomMove()
+                x = 0.3*this.attackDirection(), y = 0
+            }
+            return [x, y]
+        }
+
+        this.calculateRandomMove = () => {
+            let x = 3*(Math.random() - 0.5)
+            let y = 3*(Math.random() - 0.5)
             return [x, y]
         }
 
@@ -112,7 +129,17 @@ class Player extends BasePlayer {
             //moving takes in energy
             let energyRequired = Math.abs(Math.max(x,y)*staminaToDistanceUnitRatio)
             return this.getAttributes().decreaseStamina(energyRequired, callbackError)
-        }    
+        }
+
+        this.assignRightField = () => {
+            //Player will attack to the left
+            fieldSideRight = true
+        }
+        this.assignLeftField = () => {
+            //Player will attack to the left
+            fieldSideRight = false
+        }
+        this.attackDirection = () => fieldSideRight ? -1 : 1
     }
 
     matchUp(challengee, callback) {
@@ -129,6 +156,7 @@ class Player extends BasePlayer {
             let [x, y] = this.calculateNextMove()
             if(this.decreaseStamina(x, y, callbackError)) {
                 this.move(x, -y)
+                obj.moveWithOwner(x, y, this) //If is onwer of objective, objective will move also
             }    
         }
     }

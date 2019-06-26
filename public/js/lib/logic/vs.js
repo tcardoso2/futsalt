@@ -25,7 +25,7 @@ function vs(challenger, challengee, callback) {
     //WIP, assume for now the challenger always gets the ball
     if (ball) {
         ball.loose(challengee)
-        ball.request(challenger)
+        challenger.requestAchieveObjective(ball, (player) => {/*Player got the ball*/ })
     }
     callback(ball ? ball.getOwner() : challenger)
 }

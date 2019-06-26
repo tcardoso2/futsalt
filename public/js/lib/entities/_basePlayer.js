@@ -25,8 +25,9 @@ class BasePlayer extends Subscriber {
             if(isNaN(y)) throw new Error('Field y position has to be a number')
             _fieldPosY = y
         }
-        this.fieldPosX = () => _fieldPosX - this.boundaries.pos.x()
-        this.fieldPosY = () => _fieldPosY - this.boundaries.pos.y()
+        //Round to 1 decimal place
+        this.fieldPosX = () => Math.round(10*(_fieldPosX - this.boundaries.pos.x()))/10
+        this.fieldPosY = () => Math.round(10*(_fieldPosY - this.boundaries.pos.y()))/10
         this.fieldPos = () => [this.fieldPosX(), this.fieldPosY()]
         this.fieldRotation = () => _fieldRotation
 

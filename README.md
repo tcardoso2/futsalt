@@ -6,7 +6,7 @@ Versions
 █████╗  ██║   ██║   ██║   ███████╗███████║██║     ██║   
 ██╔══╝  ██║   ██║   ██║   ╚════██║██╔══██║██║     ██║   
 ██║     ╚██████╔╝   ██║   ███████║██║  ██║███████╗██║   
-╚═╝      ╚═════╝    ╚═╝   ╚══════╝╚═╝  ╚═╝╚══════╝╚═╝    Version 0.10.2
+╚═╝      ╚═════╝    ╚═╝   ╚══════╝╚═╝  ╚═╝╚══════╝╚═╝    Version 0.10.4
                                                         
  _____ _____ _      _____ ____  _  ____ 
 /  __//  __// \  /|/  __// ___\/ \/ ___\
@@ -18,6 +18,7 @@ Versions
 ```                                                                                        
 Genesis
 -------
+- v.0.10.4: Working on movement after grabbing the ball, added ability to assign players to left and right side of the field
 - v.0.10.3: Working on VS logic, introduced stun after loosing the ball, added more tests (WIP)
 - v.0.10.2: Bug fixes, refactoring code, created VS screen, started with MatchUp (Challenge mode) (WIP)
 - v.0.10.1: Refactoring code, added scenes into context, started adding first tests (Scenes)

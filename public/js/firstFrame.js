@@ -7,7 +7,9 @@ function onFirstFrame(canvas, ctx) {
 function createMainScene(canvas, ctx) {
     //Generate the entities
     var player1 = playersFactory().create("Tsubasa", 10)
+    player1.assignLeftField()
     var player2 = playersFactory().create("Hyuga", 10, { speed: 60 })
+    player2.assignRightField()
     var field1 = new Field(-300,300,-190,190)
     var ball1 = new Ball(0, 0)
     ctx.ball = ball1
