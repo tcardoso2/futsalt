@@ -69,6 +69,10 @@ class Ball extends BasePlayer {
                 this.move(x, y)
             }
         }
+
+        this.crossedGoal = (callback) => {
+
+        }
         /*
         __      __   _ _     _       _   _                 
         \ \    / /  | (_)   | |     | | (_)                

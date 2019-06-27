@@ -113,21 +113,14 @@ class Player extends BasePlayer {
                 x = distanceToObj['x'] == 0 ? 0 : distanceToObj['x']*attributes.getSpeed()/Math.abs(distanceToObj['x']*100)
                 y = distanceToObj['y'] == 0 ? 0 : -distanceToObj['y']*attributes.getSpeed()/Math.abs(distanceToObj['y']*100)    
             } else {
-                //[x, y] = this.calculateRandomMove()
-                x = 0.3*this.attackDirection(), y = 0
+                x = 0.4*this.attackDirection(), y = 0
             }
-            return [x, y]
-        }
-
-        this.calculateRandomMove = () => {
-            let x = 3*(Math.random() - 0.5)
-            let y = 3*(Math.random() - 0.5)
             return [x, y]
         }
 
         this.decreaseStamina =(x, y, callbackError) => {
             //moving takes in energy
-            let energyRequired = Math.abs(Math.max(x,y)*staminaToDistanceUnitRatio)
+            let energyRequired = Math.abs(Math.max(Math.abs(x),Math.abs(y))*staminaToDistanceUnitRatio)
             return this.getAttributes().decreaseStamina(energyRequired, callbackError)
         }
 

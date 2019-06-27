@@ -23,6 +23,7 @@ function vs(challenger, challengee, callback) {
     validateInput()
     let ball = challengee.getAchievement()
     //WIP, assume for now the challenger always gets the ball
+    
     if (ball) {
         ball.loose(challengee)
         challenger.requestAchieveObjective(ball, (player) => {/*Player got the ball*/ })

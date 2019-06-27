@@ -9,7 +9,7 @@ class Match {
     constructor() {
         this.playerStats = {}
         let self = this
-        let paused = false
+        let paused = true
         this.pause = () => paused = true
         this.resume = () => paused = false
         this.isPaused = () => paused == true

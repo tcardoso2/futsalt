@@ -11,7 +11,9 @@ class Context extends Subscriber{
     constructor(players = {}, ball = null) {
         super()
         this.players = players
-        this.ball = ball
+        if(ball) {
+            this.addBall(ball)
+        }
         this.match = {}
         this.scene = new SceneManager()
     }
@@ -62,6 +64,23 @@ class Context extends Subscriber{
             this.ball.place(x, y, enforceBoundaries)
         }
     }
+    addBall(ball) {
+        //Subscribe left / right score to any triggered event by the ball
+        if (ball instanceof Ball) {
+            this.ball = ball
+            let self = this
+            this.ball.subscribe((content) => {
+                if(content[2] == "baseCrossedBoundaryX" && self.match) {
+                    if(content[3] == 1)
+                        $('.score-right').html(parseInt($('.score-right').text())+1)
+                    else
+                        $('.score-left').html(parseInt($('.score-left').text())+1)
+                } 
+            })
+        } else {
+            throw new Error("ball is not of type Ball")
+        }               
+    }
     /*
      _____  _                           
     |  __ \| |                          
@@ -74,7 +93,7 @@ class Context extends Subscriber{
     */
     addPlayer(player) {
         this.players[player.name] = player
-        //For now we subscribe this function to the player in the field
+        //Subscribe footer comments to any triggered event by the player
         player.subscribe((content) => {
             content = $('.footer-comments').html() + " " + JSON.stringify(content[0])
             $('.footer-comments').html(content)

@@ -9,6 +9,21 @@ body {
     width: 100%;
     height: 100%;
 }
+.score-right {
+    position: absolute;
+    right: 0px;
+    bottom: 100px;
+    color: yellowgreen;
+    font-size: 500%;
+}
+
+.score-left {
+    position: absolute;
+    left: 0px;
+    bottom: 100px;
+    color: yellowgreen;
+    font-size: 500%;
+}
 .rightbox {
     position: absolute;
     right: 0px;

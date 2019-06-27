@@ -12,7 +12,7 @@ function createMainScene(canvas, ctx) {
     player2.assignRightField()
     var field1 = new Field(-300,300,-190,190)
     var ball1 = new Ball(0, 0)
-    ctx.ball = ball1
+    ctx.addBall(ball1)
 
     //Create and push the canvas elements to the canvas scene, order matters!
     let field = renderField(canvas, null, field1)
@@ -22,8 +22,10 @@ function createMainScene(canvas, ctx) {
     ctx.scene.addToScene(renderFieldPlayer(canvas, field, player2))
 
     ball1.place(canvas.mouse.x, canvas.mouse.y, true)
-    player1.place(20, 0, true, true)
-    player2.place(-20, 0, true, true)
+    player1.place(100, 0, true, true)
+    player2.place(-100, 0, true, true)
+    ball1.place(0, 0, true, true)
+    ctx.resumeMatch()
 }
 
 function createVSScene(canvas, ctx) {

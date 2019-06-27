@@ -11,11 +11,12 @@ class BasePlayer extends Subscriber {
         super()
         //internal attributes
         if(isNaN(x) || isNaN(y)) throw new Error('BasePlayer coordinates needs to be numbers')
-        let _fieldPosX = x; //Center of the pitch
-        let _fieldPosY = y; 
-        let _fieldRotation = 0;
+        let _fieldPosX = x //Center of the pitch
+        let _fieldPosY = y
+        let _fieldRotation = 0
+        let _crossedBoundaryX = 0
         this.name = "Unamed"
-        this.boundaries;
+        this.boundaries
         //public accessors
         this.setFieldPosX = (x) => {
             if(isNaN(x)) throw new Error('Field x position has to be a number')
@@ -33,12 +34,26 @@ class BasePlayer extends Subscriber {
 
         //Public methods which require to use private vars
         this.isInsideBoundX = () => {
-            return _fieldPosX <= this.boundaries.xMax() + this.boundaries.pos.x() &&
-            _fieldPosX >= this.boundaries.xMin() + this.boundaries.pos.x() 
+            let belowMax = _fieldPosX <= this.boundaries.xMax() + this.boundaries.pos.x()
+            let aboveMin = _fieldPosX >= this.boundaries.xMin() + this.boundaries.pos.x()
+            if (!belowMax) {
+                if (_crossedBoundaryX != 1) this.trigger([`${this.name} has crossed Max x boundary!!`, this, "baseCrossedBoundaryX", 1])
+                _crossedBoundaryX = 1
+            } else {
+                if (!aboveMin) {
+                    if (_crossedBoundaryX != -1) this.trigger([`${this.name} has crossed Min y boundary!!`, this, "baseCrossedBoundaryX", -1])
+                    _crossedBoundaryX = -1
+                } else {
+                    //Is inside boundaries
+                    _crossedBoundaryX = 0
+                }
+            } 
+            return _crossedBoundaryX == 0
         }
         this.isInsideBoundY = () => {
-            return _fieldPosY <= this.boundaries.yMax() + this.boundaries.pos.y() &&
-            _fieldPosY >= this.boundaries.yMin() + this.boundaries.pos.y() 
+            let result = _fieldPosY <= this.boundaries.yMax() + this.boundaries.pos.y() &&
+            _fieldPosY >= this.boundaries.yMin() + this.boundaries.pos.y()
+            return result
         }
 
         //Places an element in the absolute coordinates of a screen
