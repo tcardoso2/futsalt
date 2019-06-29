@@ -6,7 +6,7 @@ Versions
 █████╗  ██║   ██║   ██║   ███████╗███████║██║     ██║   
 ██╔══╝  ██║   ██║   ██║   ╚════██║██╔══██║██║     ██║   
 ██║     ╚██████╔╝   ██║   ███████║██║  ██║███████╗██║   
-╚═╝      ╚═════╝    ╚═╝   ╚══════╝╚═╝  ╚═╝╚══════╝╚═╝    Version 0.10.5
+╚═╝      ╚═════╝    ╚═╝   ╚══════╝╚═╝  ╚═╝╚══════╝╚═╝    Version 0.10.6
                                                         
  _____ _____ _      _____ ____  _  ____ 
 /  __//  __// \  /|/  __// ___\/ \/ ___\
@@ -14,10 +14,11 @@ Versions
 | |_//|  /_ | | \|||  /_ \___ || |\___ |
 \____\\____\\_/  \|\____\\____/\_/\____/
                                         
-(Fonts by http://patorjk.com)
+(Fonts by http://patorjk.com/software/taag)
 ```                                                                                        
 Genesis
 -------
+- v.0.10.6: Bug fixes on goals, added clock, added halfs, and extra-time, game-over detection, and restart of next half
 - v.0.10.5: Bug fixes on stamina decrease, adjustments on stats, introduced scores, and trigger events if object crosses boundaries
 - v.0.10.4: Working on movement after grabbing the ball, added ability to assign players to left and right side of the field
 - v.0.10.3: Working on VS logic, introduced stun after loosing the ball, added more tests (WIP)

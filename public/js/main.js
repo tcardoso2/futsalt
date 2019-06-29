@@ -13,10 +13,7 @@ var canvas = new Canvas('main', 0, function() {
     drawGrid(this)
 });
 
-var context = new Context()
-let match = new Match()
-context.subscribe(match.addNewPlayer, match)
-context.match = match //Easy accessor
+var context = new Context(canvas)
 
 initializePFactory(context)
 

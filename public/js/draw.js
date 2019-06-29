@@ -14,11 +14,13 @@ function onDraw(canvas, ctx) {
     content += `<br />Ball: ${ctx.ball.fieldPosX()}, ${ctx.ball.fieldPosY()}`
     content += `<br />Owner: ${ctx.ball.isFree() ? "-" : ctx.ball.getOwner().name }`
     content += `<br />Vector: ${JSON.stringify(ctx.players["Tsubasa"].getDistanceToObj())}`
-    content += `<br />FPS: ${canvas.getFPS()}`
+    content += `<br />FPS: ${canvas.getFPS().toFixed(0)}`
     content += `<br />Paused: ${ctx.match.isPaused()}`
 
+    $('.clock').html(ctx.updateClock())
+    $('.half').html(ctx.updateHalf())
     $('.rightbox').html(content)
     $('.leftbox').html(JSON.stringify(ctx.match.playerStats))
     //This creates the actual scene
-    ctx.drawScene(canvas)
+    ctx.drawScene()
 }

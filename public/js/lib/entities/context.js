@@ -8,14 +8,34 @@
  */
 
 class Context extends Subscriber{
-    constructor(players = {}, ball = null) {
+    constructor(canvas, players = {}, ball = null) {
         super()
+        this.canvas = canvas
         this.players = players
         if(ball) {
             this.addBall(ball)
         }
-        this.match = {}
+        let self = this
+        let inInterval = false
+        let halfEnd = (which) => {
+            //inInterval = true
+            self.halfEnd(which)
+        }
+        let match = new Match(halfEnd, [45, 45, 15, 15])
+        this.subscribe(match.addNewPlayer, match)
+        this.match = match //Easy accessor
         this.scene = new SceneManager()
+
+        //Mouse Events
+        canvas.onMouseUp = function(x, y, button) {
+            // show different color circle based on the button pressed, the smaller circle
+            this.fillStyle('#' + (button == 3 ? 'FF' : '00') + (button == 1 ? 'FF' : '00') + (button == 2 ? 'FF' : '00'));
+            this.fillCircle(x, y, 5, ALIGN.CENTER.MIDDLE);
+            if(self.inInterval()) {
+                //inInterval = false
+                self.match.startNextHalf()
+            }
+        }    
     }
 
     /*
@@ -27,8 +47,16 @@ class Context extends Subscriber{
     |_|  |_|\__,_|\__\___|_| |_|
                              
     */
+
+    inInterval() {
+        return this.match.inInterval()
+    }
     pauseMatch() {
         this.match.pause()
+    }
+
+    endHalf() {
+        this.match.endHalf()
     }
 
     resumeMatch() {
@@ -39,6 +67,51 @@ class Context extends Subscriber{
         return this.match.isPaused()
     }
 
+    updateClock() {
+        return this.match.getClockTick()
+    }
+
+    updateHalf() {
+        let h = this.match.getHalf()
+        let message
+        switch(h){
+            case 1: message = "1st half"
+                break
+            case 2: message = "2nd half"
+                break
+            case 3: message = "1st extra time"
+                break
+            case 4: message = "2nd extra time"
+                break
+            default:
+                break;
+        }
+        return message
+    }
+
+    halfEnd(which) {
+        let message
+        this.pauseMatch()
+        switch (which) {
+            case 1: message = "And it's the end of first half!"
+                break
+            case 2: message = "And the referee blows the final wistle!"
+                break
+            case 3: message = "And it's the end of first extra time!"
+                break
+            case 4: message = "And it's the end of the extra time!"
+                break
+            default:
+                this.resumeMatch()
+                break;
+        }
+        if (message) {
+            //TODO: Improve as needs to know the footer placeholder
+            this.endHalf()
+            $('.footer-comments').html(message)
+        }
+    }
+
    /* _____                     
      / ____|                    
     | (___   ___ ___ _ __   ___ 
@@ -47,8 +120,8 @@ class Context extends Subscriber{
     |_____/ \___\___|_| |_|\___|
     */                          
                                
-    drawScene(canvas) {
-        this.scene.draw(canvas)
+    drawScene() {
+        this.scene.draw(this.canvas)
     }
     /*
      ____        _ _ 
@@ -70,12 +143,15 @@ class Context extends Subscriber{
             this.ball = ball
             let self = this
             this.ball.subscribe((content) => {
-                if(content[2] == "baseCrossedBoundaryX" && self.match) {
-                    if(content[3] == 1)
-                        $('.score-right').html(parseInt($('.score-right').text())+1)
-                    else
-                        $('.score-left').html(parseInt($('.score-left').text())+1)
-                } 
+                if(!this.match.isPaused()){
+                    if(content[2] == "baseCrossedBoundaryX" && self.match) {
+                        if(content[3] == 0) return
+                        if(content[3] == 1)
+                            $('.score-right').html(parseInt($('.score-right').text())+1)
+                        else
+                            $('.score-left').html(parseInt($('.score-left').text())+1)
+                    }     
+                }
             })
         } else {
             throw new Error("ball is not of type Ball")
@@ -95,7 +171,9 @@ class Context extends Subscriber{
         this.players[player.name] = player
         //Subscribe footer comments to any triggered event by the player
         player.subscribe((content) => {
-            content = $('.footer-comments').html() + " " + JSON.stringify(content[0])
+            let lastContent = $('.footer-comments').html()
+            if (lastContent.length > 200) lastContent = ""
+            content = lastContent + " " + JSON.stringify(content[0])
             $('.footer-comments').html(content)
         })
         //Notifies player was added
@@ -119,7 +197,7 @@ class Context extends Subscriber{
                     }, 3000)
                 })
             }, (error) => {        
-                alert(error)
+                $('.footer-comments').html(error)
             })
         }
     }

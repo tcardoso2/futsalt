@@ -25,7 +25,9 @@ function createMainScene(canvas, ctx) {
     player1.place(100, 0, true, true)
     player2.place(-100, 0, true, true)
     ball1.place(0, 0, true, true)
-    ctx.resumeMatch()
+    setTimeout(()=> {
+        ctx.resumeMatch()
+    }, 1000)
 }
 
 function createVSScene(canvas, ctx) {
