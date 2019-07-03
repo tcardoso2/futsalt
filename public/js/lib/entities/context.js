@@ -27,6 +27,7 @@ class Context extends Subscriber{
         this.scene = new SceneManager()
 
         //Mouse Events
+        if(!canvas) return
         canvas.onMouseUp = function(x, y, button) {
             // show different color circle based on the button pressed, the smaller circle
             this.fillStyle('#' + (button == 3 ? 'FF' : '00') + (button == 1 ? 'FF' : '00') + (button == 2 ? 'FF' : '00'));
@@ -138,6 +139,7 @@ class Context extends Subscriber{
         }
     }
     addBall(ball) {
+        //TODO: Detach jquery from this function
         //Subscribe left / right score to any triggered event by the ball
         if (ball instanceof Ball) {
             this.ball = ball
@@ -171,8 +173,9 @@ class Context extends Subscriber{
         this.players[player.name] = player
         //Subscribe footer comments to any triggered event by the player
         player.subscribe((content) => {
+            //TODO: decouple jquery code from here
             let lastContent = $('.footer-comments').html()
-            if (lastContent.length > 200) lastContent = ""
+            if (!lastContent || lastContent.length > 200) lastContent = ""
             content = lastContent + " " + JSON.stringify(content[0])
             $('.footer-comments').html(content)
         })

@@ -3,7 +3,8 @@ function throwError(msg) { throw new Error(msg) }
 function equal(expr1,expr2, msg) {
     let jexpr1 = expr1 ? JSON.stringify(expr1) : false 
     let jexpr2 = expr2 ? JSON.stringify(expr2) : false
-    if (!jexpr1 == jexpr2) throw new Error(msg)
+    if (!(jexpr1 == jexpr2)) throw new Error(msg)
+    return true
 }
 
 describe('When 2 players are matched-up against each other', function() {
@@ -45,15 +46,14 @@ describe('When 2 players are matched-up against each other', function() {
         });
         it('(Temporary) The challenger then always gets the ball', function(done) {
             //Let's assume the challenger is always the Player in the 1st argument
-            ball.request(challengee) //2nd player gets the ball first
-            vs(challenger, challengee, (winner) => {
-                equal(challenger, winner, "Players are not the same!")
+            //ball.request(challengee) //2nd player gets the ball first
+            vs(challenger, challengee, (error, winner) => {
+                equal(error, false, winner)
+                winner != null || throwError("Winner cannot be null")
+                equal(challenger.name, winner.name, "Players are not the same!")
+                ball.ownedBy(challenger) || throwError("Ball should belong to challenger!")
                 done()
             })
-        });
-        it('The ball now really belongs to player 1 (challenger)', function(done) {
-            ball.ownedBy(challenger) || throwError("Ball should belong to challenger!")
-            done()
         });
     });
     context('After match-up', function() {

@@ -22,11 +22,25 @@ function vs(challenger, challengee, callback) {
     //main
     validateInput()
     let ball = challengee.getAchievement()
-    //WIP, assume for now the challenger always gets the ball
-    
     if (ball) {
-        ball.loose(challengee)
-        challenger.requestAchieveObjective(ball, (player) => {/*Player got the ball*/ })
+        challenger.requestAchieveObjective(ball, () => {
+            //Ball was free, this would never happen?
+            callback(false, challenger)
+        },() => {
+            //Challenge!
+            //WIP, assume for now the challenger always gets the ball
+            ball.loose(challengee)
+            ball.request(challenger)
+            //Make sure owner really got it
+            console.log(challenger)
+            if(!(challenger == ball.getOwner())) {
+                //Assertion should not get here
+                throw new Error("Fatal: Player did not get ball, report this error")
+            }
+            callback(false, ball.getOwner())
+        })
+    } else {
+        //Ball belonged to no one
+        callback(true, "Ball belongs to no one, so no VS happened")
     }
-    callback(ball ? ball.getOwner() : challenger)
 }

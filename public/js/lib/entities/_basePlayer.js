@@ -27,8 +27,10 @@ class BasePlayer extends Subscriber {
             _fieldPosY = y
         }
         //Round to 1 decimal place
-        this.fieldPosX = () => Math.round(10*(_fieldPosX - this.boundaries.pos.x()))/10
-        this.fieldPosY = () => Math.round(10*(_fieldPosY - this.boundaries.pos.y()))/10
+        this.getBoundariesPosX = () => this.boundaries && this.boundaries.pos ? this.boundaries.pos.x() : 0
+        this.getBoundariesPosY = () => this.boundaries && this.boundaries.pos ? this.boundaries.pos.y() : 0
+        this.fieldPosX = () => Math.round(10*(_fieldPosX - (this.getBoundariesPosX()))/10)
+        this.fieldPosY = () => Math.round(10*(_fieldPosY - (this.getBoundariesPosY()))/10)
         this.fieldPos = () => [this.fieldPosX(), this.fieldPosY()]
         this.fieldRotation = () => _fieldRotation
 
@@ -94,3 +96,5 @@ class BasePlayer extends Subscriber {
         return !this.isInsideBound();
     }
 }
+
+//Utils
