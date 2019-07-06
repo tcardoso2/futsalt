@@ -41,10 +41,12 @@ class BasePlayer extends Subscriber {
             if (!belowMax) {
                 if (_crossedBoundaryX != 1) this.trigger([`${this.name} has crossed Max x boundary!!`, this, "baseCrossedBoundaryX", 1])
                 _crossedBoundaryX = 1
+                this.afterCrossedBoundary(_crossedBoundaryX)
             } else {
                 if (!aboveMin) {
                     if (_crossedBoundaryX != -1) this.trigger([`${this.name} has crossed Min y boundary!!`, this, "baseCrossedBoundaryX", -1])
                     _crossedBoundaryX = -1
+                    this.afterCrossedBoundary(_crossedBoundaryX)
                 } else {
                     //Is inside boundaries
                     _crossedBoundaryX = 0
@@ -81,6 +83,11 @@ class BasePlayer extends Subscriber {
             if (!this.isInsideBoundY()) _fieldPosY -= y
         }
     }
+
+    afterCrossedBoundary() {
+        throw new Error("Not implemented, sub-classes should override this method")
+    }
+
     //This will allow telling if this model is outside boundaries relative to another one
     boundToBox(obj) {
         this.boundaries = obj;

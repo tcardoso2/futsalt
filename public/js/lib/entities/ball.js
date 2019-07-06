@@ -71,7 +71,12 @@ class Ball extends BasePlayer {
         }
 
         this.crossedGoal = (callback) => {
+            //TODO: Use in future
+        }
 
+        this.afterCrossedBoundary = () => {
+            this.crossedGoal() //no callback, TODO, add if function is used in future
+            owner = null //Consider no one owns the ball
         }
         /*
         __      __   _ _     _       _   _                 
@@ -86,5 +91,4 @@ class Ball extends BasePlayer {
             if (!(player instanceof Player)) throw new Error('Not a valid player entity')
         }
     }
-    
 }

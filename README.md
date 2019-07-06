@@ -18,6 +18,7 @@ Versions
 ```                                                                                        
 Genesis
 -------
+- v.0.10.8: After a goal is scored, players take their initial positions (WIP), introduced scoring
 - v.0.10.7: More bug fixes
 - v.0.10.6: Bug fixes on goals, added clock, added halfs, and extra-time, game-over detection, and restart of next half
 - v.0.10.5: Bug fixes on stamina decrease, adjustments on stats, introduced scores, and trigger events if object crosses boundaries

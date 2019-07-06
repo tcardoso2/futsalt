@@ -13,6 +13,10 @@ class Match extends Subscriber {
         let started = false
         let clock = new Clock(endfOfHalfFn, intervals)
         let inInterval = false
+        let score = {
+            home: 0,
+            away: 0
+        }
         this.playerStats = {}
         this.pause = () => paused = true
         this.endHalf = () => {
@@ -63,6 +67,17 @@ class Match extends Subscriber {
             if(!paused) clock.tick()
             return clock.toString()
         }
+        this.scored = (side) => {
+            if(side == 1) {
+                score.home++
+            }
+            else {
+                if(side == -1) score.away++
+                else return
+            }
+            this.trigger(["Goooooooooallll!!!", this, "GoalScored", side])
+        }
+        this.getScore = () => score
     }
 }
 

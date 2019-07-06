@@ -32,7 +32,6 @@ function vs(challenger, challengee, callback) {
             ball.loose(challengee)
             ball.request(challenger)
             //Make sure owner really got it
-            console.log(challenger)
             if(!(challenger == ball.getOwner())) {
                 //Assertion should not get here
                 throw new Error("Fatal: Player did not get ball, report this error")

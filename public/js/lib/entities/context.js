@@ -113,6 +113,10 @@ class Context extends Subscriber{
         }
     }
 
+    getScore() {
+        return this.match.getScore()
+    }
+
    /* _____                     
      / ____|                    
     | (___   ___ ___ _ __   ___ 
@@ -139,19 +143,22 @@ class Context extends Subscriber{
         }
     }
     addBall(ball) {
-        //TODO: Detach jquery from this function
         //Subscribe left / right score to any triggered event by the ball
         if (ball instanceof Ball) {
             this.ball = ball
             let self = this
+            //Subscribe for Goal events
             this.ball.subscribe((content) => {
                 if(!this.match.isPaused()){
                     if(content[2] == "baseCrossedBoundaryX" && self.match) {
-                        if(content[3] == 0) return
-                        if(content[3] == 1)
-                            $('.score-right').html(parseInt($('.score-right').text())+1)
-                        else
-                            $('.score-left').html(parseInt($('.score-left').text())+1)
+                        switch(content[3]) {
+                            case 1: self.match.scored(1)
+                                break
+                            case -1: self.match.scored(-1)
+                                break
+                            default:
+                                break
+                        }
                     }     
                 }
             })
@@ -169,6 +176,10 @@ class Context extends Subscriber{
                      __/ |              
                     |___/               
     */
+    getBallOwner() {
+        return this.ball.getOwner()
+    }
+
     addPlayer(player) {
         this.players[player.name] = player
         //Subscribe footer comments to any triggered event by the player
@@ -199,7 +210,8 @@ class Context extends Subscriber{
                         self.resumeMatch()
                     }, 3000)
                 })
-            }, (error) => {        
+            }, (error) => {
+                //Remove dependency to jquery, HTML changes should be done via triggers
                 $('.footer-comments').html(error)
             })
         }
