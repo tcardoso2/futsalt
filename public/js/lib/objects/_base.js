@@ -17,16 +17,15 @@ class BaseObject {
                 1.0: 'rgba(0, 255, 0, 0.5)'
             });
             canvas.fillCircle(0, 0, 25)
-    
-            canvas.endGradient()
-    
+            canvas.endGradient()    
             canvas.fillColor('#FFFFFF')
             canvas.font('10px Courier')
             canvas.fillText("loading", 25, 25, ALIGN.CENTER.MIDDLE)
+            
             if(img) {
                 canvas.loadImage(`img/${img}`, function(image) {
-                    // image has loaded, replace proxy canvas with it
-                    canvas.scene[self.name] = image
+                    // image has loaded, replace proxy canvas with it, equivalent to image.onload
+                    canvas.scene[self.name] = image //image is the DOM object
                 },
                 function(image) {
                     alert(`Error: Loading image ${image.src} failed for ${self.name}`)
@@ -53,7 +52,8 @@ class BaseObject {
                 x: this.x,
                 y: this.y,
                 rotation: this.rotation
-            }
+            },
+            attr: {}
         }
         for (let key in this.extensions) {
             this.returnObject[key] = this.extensions[key]

@@ -6,7 +6,7 @@ Versions
 █████╗  ██║   ██║   ██║   ███████╗███████║██║     ██║   
 ██╔══╝  ██║   ██║   ██║   ╚════██║██╔══██║██║     ██║   
 ██║     ╚██████╔╝   ██║   ███████║██║  ██║███████╗██║   
-╚═╝      ╚═════╝    ╚═╝   ╚══════╝╚═╝  ╚═╝╚══════╝╚═╝    Version 0.10.7
+╚═╝      ╚═════╝    ╚═╝   ╚══════╝╚═╝  ╚═╝╚══════╝╚═╝    Version 0.10.9
                                                         
  _____ _____ _      _____ ____  _  ____ 
 /  __//  __// \  /|/  __// ___\/ \/ ___\
@@ -18,6 +18,7 @@ Versions
 ```                                                                                        
 Genesis
 -------
+- v.0.10.9: Bug fix which was causing left side to start game with 1 goal advantage. Generated the first version of the documentation with documentation nodejs tool in folder doc/. Added player entity avatars
 - v.0.10.8: After a goal is scored, players take their initial positions (WIP), introduced scoring
 - v.0.10.7: More bug fixes
 - v.0.10.6: Bug fixes on goals, added clock, added halfs, and extra-time, game-over detection, and restart of next half

@@ -6,8 +6,7 @@ function onDraw(canvas, ctx) {
     ctx.match.playerStats["Hyuga"].stamina = ctx.players["Hyuga"].getAttributes().getStamina().toFixed(0)
     if(!ctx.matchIsPaused()) {
         ctx.movePlayers()
-        //ctx.ball.place(canvas.mouse.x, canvas.mouse.y, true)
-        ctx.moveBall(canvas.mouse.x, canvas.mouse.y, ctx.ball.isFree(), true)    
+        //ctx.moveBall(window.innerWidth/2, 0, ctx.ball.isFree(), true)    
     }
     let content = `Mouse: ${canvas.mouse.x}, ${canvas.mouse.y}`
     content += `<br />Player: ${ctx.players["Tsubasa"].fieldPosX()}, ${ctx.players["Tsubasa"].fieldPosY()}`

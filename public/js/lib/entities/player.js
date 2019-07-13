@@ -19,13 +19,21 @@ class Player extends BasePlayer {
         let fieldSideRight = true //Player by default assigned to attack to the left
         let distanceToObj = {}
         let stunned = false
+        let avatars = {
+            small: "field-player-orange.png",
+            vs: ""
+        }
         //Skill / Physical Private attributes
         let attributes = new PlayerAttributes(attr ? attr : undefined)
         let staminaToDistanceUnitRatio = 1/10 //Per each 10 pixels moved, stamina decreases 1 unit
         //Objective Private attributes
         let target = null
         let achievement = null
-        //Target Public Methods
+        //Public Methods
+        this.getSmallAvatar = () => avatars.small
+
+        this.setSmallAvatar = (file) => avatars.small = file
+        
         this.getDistanceToObj = () => distanceToObj
 
         this.getAttributes = () => attributes

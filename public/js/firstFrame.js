@@ -14,12 +14,13 @@ function createMainScene(canvas, ctx) {
     var ball1 = new Ball(window.innerWidth/2, window.innerHeight/2)
     ctx.addBall(ball1)
 
-    //Create and push the canvas elements to the canvas scene, order matters!
+    //Create and push the canvas elements to the canvas scene, order matters! Last stays on top
     let field = renderField(canvas, null, field1)
     ctx.scene.addToScene(field)
-    ctx.scene.addToScene(renderBall(canvas, field, ball1))
     ctx.scene.addToScene(renderFieldPlayer(canvas, field, player1))
     ctx.scene.addToScene(renderFieldPlayer(canvas, field, player2))
+    
+    ctx.scene.addToScene(renderBall(canvas, field, ball1))
 
     initialPositions(canvas, ctx)
 
@@ -42,7 +43,7 @@ function initialPositions(canvas, ctx) {
     //TODO Detach players from Ball
     setTimeout(()=> {
         ctx.resumeMatch()
-    }, 1000)
+    }, 3000)
 }
 
 function createVSScene(canvas, ctx) {

@@ -29,15 +29,60 @@ class SceneManager extends Subscriber {
     //Draws the current scene
     draw(canvas, items = this.getActors(), overlays = this.getOverlays()) {
         //Make sure it draws the current scene
+        // Grab the Canvas and Drawing Context
+        var ctx = canvas.c
         for(let i in items){
-            canvas.drawImage(canvas.scene[items[i].obj], items[i].pos.x(), items[i].pos.y(), ALIGN.CENTER.MIDDLE, items[i].pos.rotation());
+            if(checkClip(items[i])) {
+                ctx.save()
+                // Create a circle
+                ctx.beginPath()
+                ctx.arc(items[i].pos.x(), items[i].pos.y(), items[i].clip.radius, 0, Math.PI * 2, false)
+                // Clip to the current path
+                ctx.clip()
+            }
+            canvas.drawImage(canvas.scene[items[i].obj], items[i].pos.x(), items[i].pos.y(), ALIGN.CENTER.MIDDLE, items[i].pos.rotation())
+            // Undo any clipping
+            ctx.restore()
         }
+        //ctx.restore();
+        //throw "test"
         //Overlays are always on top
         for(let o in overlays){
             canvas.drawImage(overlays[o], window.innerWidth/2, window.innerHeight/2, ALIGN.CENTER.MIDDLE, 0);
         }
     }
 }
+
+function checkClip(object) {
+    console.log(object.attr)
+    return object.clip !== undefined
+}
+
+function alpha() {
+    // Grab the Canvas and Drawing Context
+    var ctx = canvas.c
+    
+    // Create an image element
+    var img = document.createElement('IMG');
+    
+    // When the image is loaded, draw it
+    img.onload = function () {
+    
+        // Save the state, so we can undo the clipping
+        ctx.save();
+        // Create a circle
+        ctx.beginPath();
+        ctx.arc(window.innerWidth/2, window.innerHeight/2, 74, 0, Math.PI * 2, false);
+        // Clip to the current path
+        ctx.clip();
+        ctx.drawImage(img, 200, 200);
+        // Undo the clipping
+        ctx.restore();
+    }
+    
+    // Specify the src to load the image
+    img.src = "img/other/captain-tsubasa-tatakae-dream-team-tsubasa-oozora-fiction-captain-tsubasa.jpg";
+ }
 
 class Scene {
     constructor(sceneName = "main") {

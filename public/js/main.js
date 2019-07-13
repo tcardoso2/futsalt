@@ -28,5 +28,3 @@ var animationLayer = canvas.createLayer('animation', 60, function(frameDuration,
     }
     onDraw(this, context)
 });
-
-
