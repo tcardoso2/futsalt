@@ -6,7 +6,7 @@ Versions
 █████╗  ██║   ██║   ██║   ███████╗███████║██║     ██║   
 ██╔══╝  ██║   ██║   ██║   ╚════██║██╔══██║██║     ██║   
 ██║     ╚██████╔╝   ██║   ███████║██║  ██║███████╗██║   
-╚═╝      ╚═════╝    ╚═╝   ╚══════╝╚═╝  ╚═╝╚══════╝╚═╝    Version 0.10.9
+╚═╝      ╚═════╝    ╚═╝   ╚══════╝╚═╝  ╚═╝╚══════╝╚═╝    Version 0.10.10
                                                         
  _____ _____ _      _____ ____  _  ____ 
 /  __//  __// \  /|/  __// ___\/ \/ ___\
@@ -18,6 +18,7 @@ Versions
 ```                                                                                        
 Genesis
 -------
+- v.0.10.10:Improvements on code for draw function. Created player stamina gauges. Shallow documentation (--shallow flag) of the main.js file (WIP)
 - v.0.10.9: Bug fix which was causing left side to start game with 1 goal advantage. Generated the first version of the documentation with documentation nodejs tool in folder doc/. Added player entity avatars
 - v.0.10.8: After a goal is scored, players take their initial positions (WIP), introduced scoring
 - v.0.10.7: More bug fixes

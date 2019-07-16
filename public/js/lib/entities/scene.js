@@ -41,6 +41,11 @@ class SceneManager extends Subscriber {
                 ctx.clip()
             }
             canvas.drawImage(canvas.scene[items[i].obj], items[i].pos.x(), items[i].pos.y(), ALIGN.CENTER.MIDDLE, items[i].pos.rotation())
+            //TODO: This is players specific, add something more appropriate to distinguish
+            $(`#${items[i].obj}`).css({
+                left: items[i].pos.x()-30, 
+                top: items[i].pos.y()+30
+            })
             // Undo any clipping
             ctx.restore()
         }
@@ -54,7 +59,6 @@ class SceneManager extends Subscriber {
 }
 
 function checkClip(object) {
-    console.log(object.attr)
     return object.clip !== undefined
 }
 
