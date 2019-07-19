@@ -1,7 +1,7 @@
 //Called in every frame
 function onDraw(canvas, ctx) {
     //TODO: Not the best place to animate the model
-    roundStamina(ctx)
+    roundStaminaValues(ctx)
     movePlayers(ctx)
     updateDevPanel(canvas, ctx)
     updateClock(ctx)
@@ -19,7 +19,7 @@ function movePlayers(ctx) {
     }
 }
 
-function roundStamina(ctx) {
+function roundStaminaValues(ctx) {
     Object.keys(ctx.players).forEach(name => {
         ctx.match.playerStats[name].stamina = ctx.players[name].getAttributes().getStamina().toFixed(0)
     });

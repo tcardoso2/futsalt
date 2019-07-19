@@ -41,6 +41,13 @@ class Match extends Subscriber {
             this.start();
         }
         this.isPaused = () => paused == true
+/**
+ * Adds a new player to the match stats
+ * @name resumeAfterMSsss
+ * @memberof Match
+ * @public
+ * @since 0.10
+ */
         this.addNewPlayer = (player) => {
             self.playerStats[player.name] = {
                 player: player,

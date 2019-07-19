@@ -1,8 +1,9 @@
 /**
- * Main HTML 5 canvas object of the application
+ * Main HTML 5 canvas object of the application.
+ * Accessible from the /public/js/main.js file but it is recomended to treat it as solely a private variable.
  * @type object
- * @public
- * @since 0.1
+ * @private
+ * @since 0.10
  */
 var canvas = new Canvas('main', 0, function() {
     // Clear the canvas
@@ -12,19 +13,15 @@ var canvas = new Canvas('main', 0, function() {
 
 /**
  * Context for the application. Not to be mistaken by the canvas context
+ * Accessible from the /public/js/main.js file but it is recomended to treat it as solely a private variable.
  * @type object
  * @public
  * @param {object} canvas Canvas object of the application
- * @since 0.1
+ * @since 0.10
+ * @see Context
  */
 var context = new Context(canvas)
 
-/**
- * Initializes player factory and adds players to the context
- * @public
- * @since 0.1
- * @param {Context} context Context instance of the application
- */
 initializePFactory(context)
 
 var animationLayer = canvas.createLayer('animation', 60, function(frameDuration, totalDuration, frameNumber) {
@@ -34,7 +31,7 @@ var animationLayer = canvas.createLayer('animation', 60, function(frameDuration,
         // this.scene is an empty object that can be used as a namespace for your scene objects
         // using renderToCanvas that allows rendering something into an image and later draw it
         // on the canvas with drawImage() method
-        onFirstFrame(this, context);
+        onFirstFrame(this, context)
     }
     onDraw(this, context)
 });

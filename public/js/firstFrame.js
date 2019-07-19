@@ -1,10 +1,22 @@
-//Gets called when the first frame runs
-function onFirstFrame(canvas, ctx) {
+/**
+ * Gets called when the first frame of canvas runs
+ * @public
+ * @since 0.10
+ * @param {object} canvas canvas of the application
+ * @param {Context} ctx the context of the application
+ */
+function onFirstFrame(canvas, ctx = context) {
     createMainScene(canvas, ctx)
     createVSScene(canvas, ctx)
 }
-
-function createMainScene(canvas, ctx) {
+/**
+ * Creates the main scene: Players, Field ball and other elements in the game
+ * @public
+ * @since 0.10
+ * @param {object} canvas canvas of the application
+ * @param {Context} ctx the context of the application
+ */
+let createMainScene = (canvas, ctx = context) => {
     //Generate the entities
     var player1 = playersFactory().create("Tsubasa", 10)
     var player2 = playersFactory().create("Hyuga", 10, { speed: 60 })
@@ -39,7 +51,16 @@ function createMainScene(canvas, ctx) {
     })
 }
 
-function initialPositions(canvas, ctx) {
+/**
+ * Pauses the match and puts the players in their initial positions,
+ * and resumes the match after {resumeAfter} milliseconds
+ * @public
+ * @since 0.10
+ * @param {object} canvas canvas of the application
+ * @param {Context} ctx the context of the application
+ * @param {integer} resumeAfter the context of the application
+ */
+function initialPositions(canvas, ctx = context, resumeAfter = settings().game.initialPositions.resumeAfterMS) {
     ctx.pauseMatch()
     ctx.ball.place(canvas.mouse.x, canvas.mouse.y, true)
     //TODO, improve, the player names should not be hard-coded
@@ -49,16 +70,24 @@ function initialPositions(canvas, ctx) {
     //TODO Detach players from Ball
     setTimeout(()=> {
         ctx.resumeMatch()
-    }, 3000)
+    }, resumeAfter)
 }
 
-function createVSScene(canvas, ctx) {
-    var vs = new Image(0, 0)
-    var p1 = new Image(0, 0)
-    var p2 = new Image(0, 0)
+/**
+ * Adds to the VS scene the VS scene canvas elements but does not render it
+ * @public
+ * @since 0.10
+ * @param {object} canvas canvas of the application
+ * @param {Context} ctx the context of the application
+ */
+function createVSScene(canvas, ctx = context) {
+    let vs = new Image(0, 0)
+    let p1 = new Image(0, 0)
+    let p2 = new Image(0, 0)
+    const VS = settings().scenes.vs
 
-    ctx.scene.newScene("VS")
-    ctx.scene.addToScene(renderImage(canvas, "vs.png", window.innerWidth/2, window.innerHeight/2, 0), "VS")
-    ctx.scene.addToScene(renderImage(canvas, "tsubasa.png", window.innerWidth/2+200, window.innerHeight/2, 0), "VS")
-    ctx.scene.addToScene(renderImage(canvas, "hyuga.png", window.innerWidth/2-200, window.innerHeight/2, 0), "VS")
+    ctx.scene.newScene(VS)
+    ctx.scene.addToScene(renderImage(canvas, settings().files.vs, window.innerWidth/2, window.innerHeight/2, 0), VS)
+    ctx.scene.addToScene(renderImage(canvas, "tsubasa.png", window.innerWidth/2+200, window.innerHeight/2, 0), VS)
+    ctx.scene.addToScene(renderImage(canvas, "hyuga.png", window.innerWidth/2-200, window.innerHeight/2, 0), VS)
 }

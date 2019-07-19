@@ -24,6 +24,12 @@ class PlayerFactory {
 }
 let playerFactory
 
+/**
+ * Initializes player factory and adds players to the context
+ * @public
+ * @since 0.10
+ * @param {Context} context Context instance of the application
+ */
 function initializePFactory(context) {
     playerFactory = new PlayerFactory(context)
 }
