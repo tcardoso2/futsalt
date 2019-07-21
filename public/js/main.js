@@ -33,5 +33,6 @@ var animationLayer = canvas.createLayer('animation', 60, function(frameDuration,
         // on the canvas with drawImage() method
         onFirstFrame(this, context)
     }
+    movePlayers(context)
     onDraw(this, context)
 });

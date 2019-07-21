@@ -28,13 +28,18 @@ function vs(challenger, challengee, callback) {
             callback(false, challenger)
         },() => {
             //Challenge!
-            //WIP, assume for now the challenger always gets the ball
-            ball.loose(challengee)
-            ball.request(challenger)
-            //Make sure owner really got it
-            if(!(challenger == ball.getOwner())) {
-                //Assertion should not get here
-                throw new Error("Fatal: Player did not get ball, report this error")
+            //WIP, for now randomize who gets the ball
+            let _result = Math.random(1)
+            if(_result < 0) {
+                ball.loose(challengee)
+                ball.request(challenger)
+                //Make sure owner really got it
+                if(!(challenger == ball.getOwner())) {
+                    //Assertion should not get here
+                    throw new Error("Fatal: Player did not get ball, report this error")
+                }    
+            } else {
+                challenger.stunFor()
             }
             callback(false, ball.getOwner())
         })

@@ -6,8 +6,7 @@ Versions
 █████╗  ██║   ██║   ██║   ███████╗███████║██║     ██║   
 ██╔══╝  ██║   ██║   ██║   ╚════██║██╔══██║██║     ██║   
 ██║     ╚██████╔╝   ██║   ███████║██║  ██║███████╗██║   
-╚═╝      ╚═════╝    ╚═╝   ╚══════╝╚═╝  ╚═╝╚══════╝╚═╝    Version 0.10.11
-                                                        
+╚═╝      ╚═════╝    ╚═╝   ╚══════╝╚═╝  ╚═╝╚══════╝╚═╝    v0.10.13                                                        
  _____ _____ _      _____ ____  _  ____ 
 /  __//  __// \  /|/  __// ___\/ \/ ___\
 | |  _|  \  | |\ |||  \  |    \| ||    \
@@ -18,7 +17,9 @@ Versions
 ```                                                                                        
 Genesis
 -------
-- v.0.10.11:Documentation updates, for main, firstFrame and draw (WIP) files. Created settings file
+- v.0.10.13:Bug fixes on the score and ball owner; continuating documentation (WIP)
+- v.0.10.12:Documentation updates for modules: draw. Refactoring of context object code. But fix on left field attack direction. Randomized challenger winner
+- v.0.10.11:Documentation updates for modules: main, firstFrame and draw (WIP) files. Created settings file
 - v.0.10.10:Improvements on code for draw function. Created player stamina gauges. Shallow documentation (--shallow flag) of the main.js file (WIP)
 - v.0.10.9: Bug fix which was causing left side to start game with 1 goal advantage. Generated the first version of the documentation with documentation nodejs tool in folder doc/. Added player entity avatars
 - v.0.10.8: After a goal is scored, players take their initial positions (WIP), introduced scoring

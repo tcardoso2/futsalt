@@ -142,6 +142,15 @@ class Context extends Subscriber{
             this.ball.place(x, y, enforceBoundaries)
         }
     }
+
+/**
+ * Adds the ball to the context and subscribes for match updates,
+ * to update the score on the match, once it has received a
+ * 'baseCrossedBoundaryX' event
+ * @public
+ * @since 0.10
+ * @param {Ball} ball the ball object to add to the context
+ */
     addBall(ball) {
         //Subscribe left / right score to any triggered event by the ball
         if (ball instanceof Ball) {
@@ -151,13 +160,8 @@ class Context extends Subscriber{
             this.ball.subscribe((content) => {
                 if(!this.match.isPaused()){
                     if(content[2] == "baseCrossedBoundaryX" && self.match) {
-                        switch(content[3]) {
-                            case 1: self.match.scored(1)
-                                break
-                            case -1: self.match.scored(-1)
-                                break
-                            default:
-                                break
+                        if(Math.abs(content[3]) == 1) {
+                            self.match.scored(content[3])
                         }
                     }     
                 }
@@ -193,27 +197,34 @@ class Context extends Subscriber{
         //Notifies player was added
         super.trigger(player)
     }
-
+ 
     movePlayers() {
         for(let p in this.players) {
-            this.players[p].moveTowards(this.ball, (objective) => {
-                //Successfully got the ball
-            }, (ball, challenger) => {
-                //Another player has / wants the ball, challenge mode!
-                this.match.playerStats[ball.getOwner().name].stats.ballChallenges++
-                this.pauseMatch()
-                this.scene.changeTo("VS")
-                let self = this
-                challenger.matchUp(ball.getOwner(), (done) => {
-                    setTimeout(() => {
-                        self.scene.changeTo("main")
-                        self.resumeMatch()
-                    }, 3000)
-                })
-            }, (error) => {
-                //Remove dependency to jquery, HTML changes should be done via triggers
-                $('.footer-comments').html(error)
-            })
+            this.movePlayer(p)
         }
+    }
+
+    movePlayer(playerName) {
+        this.players[playerName].moveTowards(this.ball, (objective) => {
+            //Successfully got the ball
+        }, (ball, challenger) => {
+            //Another player has / wants the ball, challenge mode!
+            this.challenge(ball, challenger)
+        }, (error) => {
+            //Remove dependency to jquery, HTML changes should be done via triggers
+            $('.footer-comments').html(error)
+        })
+    }
+
+    challenge(ball, challenger) {
+        this.match.increaseStatsBallOwner(ball)
+        this.pauseMatch()
+        this.scene.changeTo("VS")
+        let self = this
+        challenger.matchUp(ball.getOwner(), (done) => {                setTimeout(() => {
+            self.scene.changeTo("main")
+                self.resumeMatch()
+            }, 3000)
+        })
     }
  }

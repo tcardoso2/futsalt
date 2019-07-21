@@ -25,6 +25,14 @@ class Ball extends BasePlayer {
         */
         this.getOwner = () => owner
 
+        this.getAttackDirection = () => {
+            if(owner) {
+                return owner.attackDirection()
+            } else {
+                return 0
+            }
+        }
+
         this.hasOwner = () => owner != null
 
         this.isFree = () => !this.hasOwner()
@@ -62,8 +70,8 @@ class Ball extends BasePlayer {
         | |\/| |/ _ \ \ / / _ \ '_ ` _ \ / _ \ '_ \| __|
         | |  | | (_) \ V /  __/ | | | | |  __/ | | | |_ 
         |_|  |_|\___/ \_/ \___|_| |_| |_|\___|_| |_|\__|
-        */                                                
-                                                        
+        */
+
         this.moveWithOwner = (x, y, player) => {
             if(this.ownedBy(player)) {
                 this.move(x, y)
@@ -89,6 +97,13 @@ class Ball extends BasePlayer {
         */       
         this.validatePlayer = (player) => {
             if (!(player instanceof Player)) throw new Error('Not a valid player entity')
+        }
+    }
+    place(x, y, enforceBoundaries = true, relative = false) {
+        super.place(x, y, enforceBoundaries, relative)
+        //Placing ball means if there is any owner he looses it
+        if(owner) {
+            this.loose(owner)
         }
     }
 }

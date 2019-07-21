@@ -10,11 +10,14 @@ function onFirstFrame(canvas, ctx = context) {
     createVSScene(canvas, ctx)
 }
 /**
- * Creates the main scene: Players, Field ball and other elements in the game
+ * Creates the main scene: Players, stamina bars, Field, Ball and other elements in the game.
+ * Subscribes to match Observer pattern to receive updates when a goal is scored
+ * and updates score on UI
  * @public
  * @since 0.10
  * @param {object} canvas canvas of the application
  * @param {Context} ctx the context of the application
+ * @todo Earlier version (PoC hard-codes only 2 player names, this will be done via web service in future and for whole team)
  */
 let createMainScene = (canvas, ctx = context) => {
     //Generate the entities
@@ -24,7 +27,7 @@ let createMainScene = (canvas, ctx = context) => {
     player1.assignLeftField()
     player2.assignRightField()
     //Create the stamina gauges
-    $("ul.stamina-bars").append(`<li id="fieldPlayer_${player1.name}"><div class="value"><div></li>`); 
+    $(settings().game.html.staminaBars).append(`<li id="fieldPlayer_${player1.name}"><div class="value"><div></li>`); 
     $("ul.stamina-bars").append(`<li id="fieldPlayer_${player2.name}"><div class="value"><div></li>`); 
     
     //Create field and ball
@@ -41,16 +44,24 @@ let createMainScene = (canvas, ctx = context) => {
     ctx.scene.addToScene(renderBall(canvas, field, ball1))
 
     initialPositions(canvas, ctx)
-
+    updatePanelOnGoal(canvas, ctx)
+}
+/**
+ * Subscribes to 'GoalScored' events to update the score on left of right side
+ * @public
+ * @since 0.10
+ * @param {object} canvas canvas of the application
+ * @param {Context} ctx the context of the application
+ */
+function updatePanelOnGoal(canvas, ctx = context){
     ctx.match.subscribe((val) => {
         if(val[2] == "GoalScored") {
-            $('.score-right').html(val[1].getScore().home)
-            $('.score-left').html(val[1].getScore().away)
+            $(settings().game.html.rightScore).html(val[1].getScore().home)
+            $(settings().game.html.leftScore).html(val[1].getScore().away)
         }
         initialPositions(canvas, ctx)
     })
 }
-
 /**
  * Pauses the match and puts the players in their initial positions,
  * and resumes the match after {resumeAfter} milliseconds

@@ -18,6 +18,7 @@ class Match extends Subscriber {
             away: 0
         }
         this.playerStats = {}
+        this.increaseStatsBallOwner = (ball) => this.playerStats[ball.getOwner().name].stats.ballChallenges++
         this.pause = () => paused = true
         this.endHalf = () => {
             this.pause()
@@ -74,6 +75,13 @@ class Match extends Subscriber {
             if(!paused) clock.tick()
             return clock.toString()
         }
+/**
+ * Increases the score to either side depending on the parameter.
+ * Triggers a 'GoalScored' event to the subscribers
+ * @public
+ * @since 0.10
+ * @param {Number} side if 1 will add a goal to home team, if -1 to away team
+ */
         this.scored = (side) => {
             if(side == 1) {
                 score.home++
@@ -82,6 +90,7 @@ class Match extends Subscriber {
                 if(side == -1) score.away++
                 else return
             }
+            console.log(score)
             this.trigger(["Goooooooooallll!!!", this, "GoalScored", side])
         }
         this.getScore = () => score

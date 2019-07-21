@@ -40,7 +40,7 @@ class Player extends BasePlayer {
 
         this.getAchievement = () => achievement
 
-        this.hasAchievedTarget = () => this.hasTarget() && (achievement == target)
+        this.hasAchievedTarget = () => this.hasTarget() && (achievement == target) && achievement.getOwner() == this
 
         this.hasTarget = () => target != null
         
@@ -83,7 +83,8 @@ class Player extends BasePlayer {
 
         this.keepAchievement = () => {
             //Player simply looses it if it is not close to it
-            if(!this.isCloseToTarget()) {
+            if(achievement && !this.isCloseToTarget()) {
+                //this.looseAchievement(achievement)
                 //achievement.loose(this)
                 //TODO deal with this logic later when passing or shooting or accidentaly loosing the ball
             } else {
@@ -121,7 +122,7 @@ class Player extends BasePlayer {
                 x = distanceToObj['x'] == 0 ? 0 : distanceToObj['x']*attributes.getSpeed()/Math.abs(distanceToObj['x']*100)
                 y = distanceToObj['y'] == 0 ? 0 : -distanceToObj['y']*attributes.getSpeed()/Math.abs(distanceToObj['y']*100)    
             } else {
-                x = 0.4*this.attackDirection(), y = 0
+                x = -0.4*this.attackDirection(), y = 0
             }
             return [x, y]
         }
@@ -140,7 +141,10 @@ class Player extends BasePlayer {
             //Player will attack to the left
             fieldSideRight = false
         }
-        this.attackDirection = () => fieldSideRight ? -1 : 1
+        this.attackDirection = () => {
+            let result = fieldSideRight ? -1 : 1
+            return result
+        }
     }
 
     matchUp(challengee, callback) {
