@@ -29,8 +29,8 @@ function vs(challenger, challengee, callback) {
         },() => {
             //Challenge!
             //WIP, for now randomize who gets the ball
-            let _result = Math.random(1)
-            if(_result < 0) {
+            let _result = Math.random()
+            if(_result < 0.5) {
                 ball.loose(challengee)
                 ball.request(challenger)
                 //Make sure owner really got it

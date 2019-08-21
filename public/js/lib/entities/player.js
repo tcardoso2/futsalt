@@ -6,7 +6,10 @@
  * Created: 13Jun2019
  */
 
+ //TODO: Move these into the settings.js file?
 const DEFAULT_STUN_PERIOD_MS = 5000
+const STAMINA_TO_DISTANCE_RATIO = 1/10
+const PLAYER_TIRED_SPEED_FRACTION = 3 //Player moves 3 times slower when tired
 
 class Player extends BasePlayer {
     constructor(name, shirtNumber = 1, attr) {
@@ -25,7 +28,7 @@ class Player extends BasePlayer {
         }
         //Skill / Physical Private attributes
         let attributes = new PlayerAttributes(attr ? attr : undefined)
-        let staminaToDistanceUnitRatio = 1/10 //Per each 10 pixels moved, stamina decreases 1 unit
+        let staminaToDistanceUnitRatio = STAMINA_TO_DISTANCE_RATIO //Per each 10 pixels moved, stamina decreases 1 unit
         //Objective Private attributes
         let target = null
         let achievement = null
@@ -128,7 +131,7 @@ class Player extends BasePlayer {
         }
 
         this.decreaseStamina =(x, y, callbackError) => {
-            //moving takes in energy
+            //moving takes out energy from the player
             let energyRequired = Math.abs(Math.max(Math.abs(x),Math.abs(y))*staminaToDistanceUnitRatio)
             return this.getAttributes().decreaseStamina(energyRequired, callbackError)
         }
@@ -159,10 +162,13 @@ class Player extends BasePlayer {
         if(!this.isStunned()) {
             this.setObjective(obj, callbackObjAchieved, challenge)
             let [x, y] = this.calculateNextMove()
-            if(this.decreaseStamina(x, y, callbackError)) {
-                this.move(x, -y)
-                obj.moveWithOwner(x, y, this) //If is onwer of objective, objective will move also
-            }    
+            if(!this.decreaseStamina(x, y, callbackError)) {
+                //Player is tired, will still move but much less
+                x /= PLAYER_TIRED_SPEED_FRACTION
+                y /= PLAYER_TIRED_SPEED_FRACTION
+            } 
+            this.move(x, -y)
+            obj.moveWithOwner(x, y, this) //If is onwer of objective, objective will move also
         }
     }
 }
@@ -176,6 +182,7 @@ class PlayerAttributes {
         }
         this.decreaseStamina = (amount, callbackTired) => {
             if(attributes.stamina - amount < 0) {
+                //Player has reached minimim stamina
                 callbackTired("Player is tired")
                 return false
             } else {

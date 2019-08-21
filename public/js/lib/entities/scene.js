@@ -50,7 +50,6 @@ class SceneManager extends Subscriber {
             ctx.restore()
         }
         //ctx.restore();
-        //throw "test"
         //Overlays are always on top
         for(let o in overlays){
             canvas.drawImage(overlays[o], window.innerWidth/2, window.innerHeight/2, ALIGN.CENTER.MIDDLE, 0);
@@ -85,7 +84,6 @@ function alpha() {
     }
     
     // Specify the src to load the image
-    img.src = "img/other/captain-tsubasa-tatakae-dream-team-tsubasa-oozora-fiction-captain-tsubasa.jpg";
  }
 
 class Scene {

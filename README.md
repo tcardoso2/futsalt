@@ -6,7 +6,7 @@ Versions
 █████╗  ██║   ██║   ██║   ███████╗███████║██║     ██║   
 ██╔══╝  ██║   ██║   ██║   ╚════██║██╔══██║██║     ██║   
 ██║     ╚██████╔╝   ██║   ███████║██║  ██║███████╗██║   
-╚═╝      ╚═════╝    ╚═╝   ╚══════╝╚═╝  ╚═╝╚══════╝╚═╝    v0.10.13                                                        
+╚═╝      ╚═════╝    ╚═╝   ╚══════╝╚═╝  ╚═╝╚══════╝╚═╝    v0.10.14                                                        
  _____ _____ _      _____ ____  _  ____ 
 /  __//  __// \  /|/  __// ___\/ \/ ___\
 | |  _|  \  | |\ |||  \  |    \| ||    \
@@ -17,6 +17,7 @@ Versions
 ```                                                                                        
 Genesis
 -------
+- v.0.10.14:Bug fix on randomized logic for who gets the ball after a vs event. Starting conversion to ReactJS. 
 - v.0.10.13:Bug fixes on the score and ball owner; continuating documentation (WIP)
 - v.0.10.12:Documentation updates for modules: draw. Refactoring of context object code. But fix on left field attack direction. Randomized challenger winner
 - v.0.10.11:Documentation updates for modules: main, firstFrame and draw (WIP) files. Created settings file
