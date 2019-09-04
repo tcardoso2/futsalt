@@ -1,3 +1,4 @@
+import Field from '../entities/field'
 import BaseObject from './_base'
 
 function renderField(canvas, relativeTo, entity = new Field()) {

@@ -1,3 +1,5 @@
+import ALIGN from '../canvas/canvas-1.2.dev'
+
 class BaseObject {
     
     constructor(canvas, name, img) {
@@ -20,10 +22,10 @@ class BaseObject {
             canvas.endGradient()    
             canvas.fillColor('#FFFFFF')
             canvas.font('10px Courier')
-            canvas.fillText("loading", 25, 25, ALIGN.CENTER.MIDDLE)
+            canvas.fillText("loading", 25, 25, 'center-middle') //ALIGN.CENTER.MIDDLE)
             
             if(img) {
-                canvas.loadImage(`/img/${img}`, function(image) {
+                canvas.loadImage(`img/${img}`, function(image) {
                     // image has loaded, replace proxy canvas with it, equivalent to image.onload
                     canvas.scene[self.name] = image //image is the DOM object
                 },
@@ -77,3 +79,5 @@ class BaseObject {
         throw new Error('Not implemented')
     }
 }
+
+export default BaseObject
