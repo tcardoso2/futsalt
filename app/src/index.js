@@ -58,7 +58,7 @@ class StartGameButton extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: null,
+      value: null
     };
   }
 
@@ -71,12 +71,30 @@ class StartGameButton extends React.Component {
   }
 }
 
+class MatchClock extends React.Component {
+  render() {
+    return (
+      <div className="clock-container"><div className="clock">{this.props.time}</div><div className="half">1st half</div></div>
+    );
+  }
+}
+
 class Scene extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showCanvasScene: false,
+      displayMainScene: false,
+      time: ""
     };
+    this.setTime = (ctx) => {
+      if(!ctx.matchIsPaused()) {
+        let display = this.state.displayMainScene
+        this.setState({
+          displayMainScene: display,
+          time: ctx.updateClock()
+        })
+      }
+    }
     this.handler = this.handler.bind(this)
   }
 
@@ -91,18 +109,27 @@ class Scene extends React.Component {
     })
   }
 
+  initializeCanvas() {
+    let that = this
+    setTimeout(() => {
+      drawMainCanvas(that.setTime)
+    }, 10)
+  }
+
   render() {
     if ( this.state.displayMainScene ) {
-      setTimeout( drawMainCanvas, 1000)
+      if(this.state.time == "") {
+        //Will only initialize once!
+        this.initializeCanvas()
+      }
       return (
-        <div>
-        <canvas id="main"></canvas>
+      <div>
         <div className="score-left">0</div>
         <div className="score-right">0</div>
         <div className="rightbox"></div>
         <div className="leftbox"></div>
         <div className="footer-comments"></div>
-        <div className="clock-container"><div className="clock">00:00</div><div className="half">1st half</div></div>
+        <MatchClock time={this.state.time} />
         <ul className="stamina-bars">
         </ul>
       </div>
@@ -115,7 +142,6 @@ class Scene extends React.Component {
   }
 }
 
-
 class Game extends React.Component {
   render() {
     return (
@@ -124,6 +150,7 @@ class Game extends React.Component {
           <Board />
         </div>
         <Scene />
+        <canvas id="main"></canvas>
         <div className="game-info">
           <div>{/* status */}</div>
           <ol>{/* TODO */}</ol>

@@ -7,8 +7,9 @@ import onFirstFrame from './firstFrame'
 import initializePFactory from './lib/entities/playerFactory'
 
 var context
+var canvas
 
-function drawMainCanvas() {
+export function drawMainCanvas(callback) {
 /**
  * Main HTML 5 canvas object of the application.
  * Accessible from the /public/js/main.js file but it is recomended to treat it as solely a private variable.
@@ -16,7 +17,7 @@ function drawMainCanvas() {
  * @private
  * @since 0.10
  */
-    var canvas = new Canvas('main', 0, function() {
+    canvas = new Canvas('main', 0, function() {
         // Clear the canvas
         this.clear()
         //Draw grid
@@ -51,6 +52,7 @@ function drawMainCanvas() {
         }
         //movePlayers(context)
         onDraw(this, context)
+        if (callback) callback(context)
     })
 }
 
