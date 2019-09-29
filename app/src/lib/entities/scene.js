@@ -21,7 +21,27 @@ export class SceneManager extends Subscriber {
         this.getCurrentScene = () => scenes[currentScene]
         this.addToScene = (actor, scene = MAIN_SCENE) => this.getScene(scene).addActor(actor)
         this.addOverlay = (overlay, scene = MAIN_SCENE) => this.getScene(scene).addOverlay(overlay)
-        this.getActors = () => this.getCurrentScene().getActors()
+/**
+ * Gets the actors in the current scene
+ * @public
+ * @since 0.15
+ * @param {Object} filter the result can be filtered to obtain certain actors
+ * only, e.g. field players
+ * @example sceneManager.getActors({ attr: "obj", method: "startsWith", arg: "fieldPlayer_"})
+ */
+        this.getActors = (filter) => {
+            let actors = this.getCurrentScene().getActors()
+            if (!filter || !filter.attr || !filter.method)
+            {
+                return actors //Returns all actors if no filter applies
+            }
+            let result = []
+            for (let i in actors) {
+                if(actors[i][filter.attr][filter.method](filter.arg))
+                    result.push(actors[i])
+            }
+            return result
+        }
         this.getOverlays = () => this.getCurrentScene().getOverlays()
         this.newScene = (sceneName) => scenes[sceneName] = new Scene(sceneName) 
         this.sceneExists = (sceneName) => scenes[sceneName] instanceof Scene 

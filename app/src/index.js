@@ -5,55 +5,6 @@ import './index.css'
 import './main.css'
 import './main.js'
 
-class Square extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: null,
-    };
-  }
-
-  render() {
-    return (
-      <button className="square" onClick={ () => { this.setState({value: 'X'})} }>
-        { this.state.value }
-      </button>
-    );
-  }
-}
-
-class Board extends React.Component {
-  renderSquare(i) {
-    return <Square value={i} />;
-  }
-
-  render() {
-    const status = 'Next player: X';
-
-    return (
-      <div>
-        <div className="status">{status}</div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
-      </div>
-    );
-  }
-}
-/************ Ignore the Components above during migration to React for now */
-
 class StartGameButton extends React.Component {
   constructor(props) {
     super(props);
@@ -72,24 +23,23 @@ class StartGameButton extends React.Component {
 }
 
 class StaminaBar extends React.Component {
-  /*constructor(props) {
+  constructor(props) {
     super(props);
-    this.state = props.value
-    /*let stamina = ctx.match.playerStats[player].stamina
-    $(`#fieldPlayer_${player} > div.value`).css({
-        width: stamina/2,
-        backgroundColor: stamina < 55 ? (stamina < 20 ? 
+    //this.state = props.player.stamina
+    /*$(`#fieldPlayer_${player} > div.value`).css({
+        width: this.state/2,
+        backgroundColor: this.state < 55 ? (this.state < 20 ? 
             settings().game.gauges.veryLowStaminaColor : 
             settings().game.gauges.lowStaminaColor) : 
             settings().game.gauges.highStaminaColor
-    })
-}*/
+    })*/
+}
 
   render() {
     //alert(JSON.stringify(this.props.player))
     return (
       <li id={ this.props.player.obj } style={{left: this.props.player.x-30, top: this.props.player.y+30}}>
-        <div className="value">{ this.props.player.stamina }</div>
+        <div className="value" style={{width: this.props.player.stamina/2 }}></div>
       </li>
     );
   }
@@ -119,6 +69,7 @@ class StaminaBars extends React.Component {
   render() {
     let items = null
     if(this.props.players) {
+      //alert(JSON.stringify(this.props.players))
       items = this.props.players.map((p) => this.renderStaminaBar(p))
     }
     return (
@@ -150,7 +101,7 @@ class Scene extends React.Component {
         this.setState({
           displayMainScene: this.state.displayMainScene,
           time: ctx.updateClock(),
-          players: ctx.getScene().getActors().map((p) => {
+          players: ctx.getScene().getActors({ attr: "obj", method: "startsWith", arg: "fieldPlayer_"}).map((p) => {
             return {
               obj: p.obj,
               stamina: ctx.match.playerStats["Hyuga"].stamina, //Replace by proper
@@ -213,9 +164,6 @@ class Game extends React.Component {
   render() {
     return (
       <div className="game">
-        <div className="game-board">
-          <Board />
-        </div>
         <Scene />
         <canvas id="main"></canvas>
         <div className="game-info">
